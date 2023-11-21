@@ -1,4 +1,4 @@
-package com.pingpong.jlab.pingpong.domain.user.controller;
+package com.pingpong.jlab.pingpong.domain.admin.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,33 +10,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/user")
-public class UserController {
+@RequestMapping(value="/v1/admin")
+public class AdminController {
 
-    @GetMapping(value = "")
-    public ResponseEntity getUserList(){
+    @GetMapping(value="")
+    public ResponseEntity getAdminList(){
         return null;
     }
 
-    @PostMapping(value = "")
-    public ResponseEntity addUser(){
+    @PostMapping(value="")
+    public ResponseEntity addAdmin(){
         return null;
     }
 
-    @DeleteMapping(value = "")
-    public ResponseEntity deleteUser(){
-        return null;
-    } 
-
-    @PutMapping(value = "")
-    public ResponseEntity updateUser(){
+    @DeleteMapping(value="")
+    public ResponseEntity deleteAdmin(){
         return null;
     }
 
-    @GetMapping(value = "/{user_seq}")
-    public ResponseEntity getUserDetails(@PathVariable Long user_seq){
+    @PutMapping(value="")
+    public ResponseEntity updateAdmin(){
         return null;
     }
 
+    @GetMapping(value="/{admin_id}")
+    public ResponseEntity adminDetail(@PathVariable Long admin_id){
+        return null;
+    }
     
 }
