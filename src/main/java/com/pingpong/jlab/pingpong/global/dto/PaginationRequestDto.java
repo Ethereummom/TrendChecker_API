@@ -49,4 +49,18 @@ public class PaginationRequestDto {
         this.keyword = keyword;
 
     }
+
+    public void setPageNumber(int page){
+        this.page = page < 1 ? 1 : page;
+        this.calcOffset();
+    }
+
+    public void setLimit(int limit){
+        this.limit = limit;
+        this.calcOffset();
+    }
+
+    public void calcOffset(){
+        this.setOffset(((int)this.page - 1 )* ((int)this.limit));
+    }
 }

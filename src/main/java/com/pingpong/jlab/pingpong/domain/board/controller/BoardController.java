@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pingpong.jlab.pingpong.domain.board.entity.Board;
 
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/api/v1/board")
 public class BoardController {
 
     public List<Board> getBoardList(){

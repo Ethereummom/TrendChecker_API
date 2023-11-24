@@ -1,45 +1,52 @@
 package com.pingpong.jlab.pingpong.domain.post.controller;
 
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.pingpong.jlab.pingpong.domain.post.dto.PostDto;
+import com.pingpong.jlab.pingpong.domain.post.dto.PostUpdateDto;
+import com.pingpong.jlab.pingpong.domain.post.service.PostService;
+import com.pingpong.jlab.pingpong.global.api.ApiResponse;
+import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
 
 @RestController
 @RequestMapping(value = "/v1/post")
 public class PostController {
+
+    @Autowired
+    PostService postService;
     
-    @GetMapping
-    @RequestMapping(value = "")
-    public ResponseEntity getPostList(){
-        return null;
+    @GetMapping(value = "")
+    public ApiResponse getPostList(PaginationRequestDto dto){
+        
+        return postService.getPostList(dto);
     }
 
-    @PostMapping
-    @RequestMapping(value = "")
-    public ResponseEntity addPost(){
-        return null;
+    @PostMapping(value = "")
+    public ApiResponse addPost(@RequestBody PostDto dto){
+        return postService.addPost(dto);
     }
 
-    @DeleteMapping
-    @RequestMapping(value ="")
-    public ResponseEntity deletePost(){
-        return null;
+    @DeleteMapping(value ="/{postseq}")
+    public ApiResponse deletePost(@PathVariable("postseq") Long postseq){
+        return postService.deletePost(postseq);
     }
 
-    @PutMapping
-    @RequestMapping(value ="")
-    public ResponseEntity updatePost(){
-        return null;
+    @PutMapping(value ="")
+    public ApiResponse updatePost(@RequestBody PostUpdateDto dto){
+        return postService.updatePost(dto);
     }
 
-    @GetMapping
-    @RequestMapping(value ="/{post_id}")
-    public ResponseEntity getPostDetail(@PathVariable Long post_id){
+    @GetMapping(value ="/{postseq}")
+    public ApiResponse getPostDetail(@PathVariable("postseq") Long post_id){
         return null;
     }
     

@@ -28,7 +28,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private UserService adminService;
+    private UserService userService;
     @Autowired
     private UserRepository userRepository;
 
@@ -37,7 +37,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     AuthenticationException exception) throws IOException, ServletException{
 
         String username = request.getParameter("username");
-        Optional<User> userid = userRepository.findById(username);
+        Optional<User> userid = userRepository.findByUserid(username);
         logger.info("로 그 인 실 패  ! ! ! ! userinfo ------" + username);
     
     }

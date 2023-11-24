@@ -9,17 +9,19 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pingpong.jlab.pingpong.global.api.ApiResponse;
+
 @RestController
-@RequestMapping(value="/v1/admin")
+@RequestMapping(value="/api/v1/admin")
 public class AdminController {
 
     @GetMapping(value="")
-    public ResponseEntity getAdminList(){
+    public ApiResponse getAdminList(){
         return null;
     }
 
     @PostMapping(value="")
-    public ResponseEntity addAdmin(){
+    public ApiResponse addAdmin(){
         return null;
     }
 

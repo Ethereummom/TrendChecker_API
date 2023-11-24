@@ -2,27 +2,26 @@ package com.pingpong.jlab.pingpong.domain.post.dto;
 
 import com.pingpong.jlab.pingpong.domain.post.entity.Post;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
-@NoArgsConstructor
-public class PostDto {
+public class PostUpdateDto {
 
 
+    private Long postseq;
     private String title;
     private String content;
     private String category;
 
 
 
-    public Post dtoToEntity(PostDto dto){
+    public Post dtoToEntity(PostUpdateDto dto){
 
         Post post = new Post();
 
+        post.setPostseq(postseq);
         post.setTitle(dto.getTitle());
         post.setContent(dto.getContent());
         post.setCategory(dto.getCategory());
@@ -30,6 +29,4 @@ public class PostDto {
         return post;
 
     }
-    
 }
-

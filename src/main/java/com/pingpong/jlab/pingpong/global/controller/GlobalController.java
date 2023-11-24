@@ -9,7 +9,7 @@ public class GlobalController {
 
     @RequestMapping("/login")
     public String userLogin(){
-        return null;
+        return "hello";
     }
 
 }
