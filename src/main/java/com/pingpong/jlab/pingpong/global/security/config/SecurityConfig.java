@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.pingpong.jlab.pingpong.global.security.handler.CustomLogoutSuccessHandler;
+import com.pingpong.jlab.pingpong.global.security.oauth2.CustomOAuth2UserService;
 
 
 
@@ -27,6 +28,9 @@ public class SecurityConfig {
 
     @Autowired
     private CustomLogoutSuccessHandler customLogoutSuccessHandler;
+
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     BCryptPasswordEncoder passwordEncoder(){
@@ -57,19 +61,21 @@ public class SecurityConfig {
             
             .and()
             .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/doLogin")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
-            
             .and()
-            .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessHandler(customLogoutSuccessHandler)
-                .logoutSuccessUrl("/login")
-                .invalidateHttpSession(true).deleteCookies("JSESSIONID");
+            .oauth2Login()
+            .authorizationEndpoint().baseUri("/oauth2/authorization")
+            .and()
+            .redirectionEndpoint().baseUri("/login/oauth/code/**")
+            .and()
+            .userInfoEndpoint().userService(customOAuth2UserService);
+            
+            // .authorizationRequestRepository(cookieOAuth)
+            
+
         
         return http.build();
     }

@@ -3,6 +3,7 @@ package com.pingpong.jlab.pingpong.domain.user.dto;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.pingpong.jlab.pingpong.domain.user.entity.User;
+import com.pingpong.jlab.pingpong.global.security.oauth2.Provider;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ public class UserDto {
     private String password;
     private String email;
     private String nickname;
+    private Provider provider;
     private String issocial;
     private int score;
     private String role;
@@ -32,6 +34,7 @@ public class UserDto {
         User user = new User();
         user.setUserid(dto.getUserid());
         user.setNickname(dto.getNickname());
+        user.setProvider(provider);
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
         user.setIssocial(dto.getIssocial());

@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,8 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-
 import com.pingpong.jlab.pingpong.domain.record.entity.Record;
+import com.pingpong.jlab.pingpong.global.security.oauth2.Provider;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -47,14 +49,21 @@ public class User {
     @Column(nullable = false)
     private int score;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Provider provider;
+
     // @OneToMany(mappedBy = "record")
     // private List<Record> record = new ArrayList<>();
 
-    @Column(length = 10, nullable = false)
-    private String role;
-
     @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
     private int accounts;
+
+    @Column(nullable = false, columnDefinition = "VARCHAR(30)")
+    private String role;
+
+    @Column(length = 500, nullable = true)
+    private String profileimage;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

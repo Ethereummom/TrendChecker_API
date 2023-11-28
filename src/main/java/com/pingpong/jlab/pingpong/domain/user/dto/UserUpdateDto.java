@@ -1,6 +1,7 @@
 package com.pingpong.jlab.pingpong.domain.user.dto;
 
 import com.pingpong.jlab.pingpong.domain.user.entity.User;
+import com.pingpong.jlab.pingpong.global.security.oauth2.Provider;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

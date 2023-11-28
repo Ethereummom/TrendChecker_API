@@ -16,6 +16,7 @@ import com.pingpong.jlab.pingpong.domain.user.repository.UserRepository;
 import com.pingpong.jlab.pingpong.global.api.ApiResponse;
 import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
 import com.pingpong.jlab.pingpong.global.dto.PaginationResponseDto;
+import com.pingpong.jlab.pingpong.global.security.oauth2.Provider;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -32,12 +33,10 @@ public class UserService {
     public ApiResponse addUser(UserDto userinfo){
 
         if(userinfo != null){
-            log.info("userinfo data ----- " + userinfo);
-            log.info("패스워드 ::::: " + userinfo.getPassword());
-
 
 
             userinfo.setPassword(passwordEncoder.encode(userinfo.getPassword()));
+            userinfo.setProvider(Provider.NONE);
             
             userRepository.save(userinfo.dtoToEntity(userinfo));
             ApiResponse res = new ApiResponse<>(200, "데이터 인서트 완료");

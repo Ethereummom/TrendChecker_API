@@ -33,6 +33,10 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.security:spring-security-taglibs'
 
+	//Social Login
+	implementation 'org.springframework.security:spring-security-oauth2-client'
+	compileOnly "org.springframework.boot:spring-boot-starter-security"
+
 	//DB Settings
 	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
 	implementation 'mysql:mysql-connector-java'
