@@ -19,9 +19,11 @@ import com.pingpong.jlab.pingpong.domain.user.entity.User;
 import com.pingpong.jlab.pingpong.domain.user.repository.UserRepository;
 import com.pingpong.jlab.pingpong.global.security.oauth2.dto.OAuth2Attributes;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User>{
-    
     private final UserRepository userRepository;
     private final HttpSession httpSession;
 
@@ -32,7 +34,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException{
-
+        
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
@@ -59,6 +61,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private User getUser(Provider provider, OAuth2Attributes attributes){
+
+        log.info("Provider ------ :::" + provider + "||| OAuth2AttRibutes" + attributes );
         User findUser = userRepository.findByProviderAndUserid(provider,
         attributes.getOauth2UserInfo().getEmail()).orElse(null);
 

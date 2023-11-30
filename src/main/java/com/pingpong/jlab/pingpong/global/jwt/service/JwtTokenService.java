@@ -8,10 +8,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.google.protobuf.Option;
 import com.pingpong.jlab.pingpong.domain.user.entity.User;
 import com.pingpong.jlab.pingpong.domain.user.exception.UserNotFoundException;
 import com.pingpong.jlab.pingpong.domain.user.repository.UserRepository;

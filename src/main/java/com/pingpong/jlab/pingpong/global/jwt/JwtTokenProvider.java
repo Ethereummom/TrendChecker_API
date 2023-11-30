@@ -100,7 +100,7 @@ public class JwtTokenProvider {
     //Update Refresh Token
     @Transactional
     public void updateRefreshToken(String userid, String refreshToken){
-        refreshTokenRepository.findByUserId(userid)
+        refreshTokenRepository.findByUserid(userid)
             .ifPresentOrElse(token -> token.update(refreshToken), 
             () -> saveRefreshToken(userid,refreshToken));
     }

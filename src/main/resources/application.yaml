@@ -1,5 +1,3 @@
-server.port : 8090
-
 spring:
     thymeleaf:
         cache: false
@@ -40,6 +38,8 @@ spring:
                         client-authentication-method: POST
                         authorization-grant-type: authorization_code
                         scope:
+                            - profile_nickname
+                            - profile_image
                             - account_email
                         client-name: Kakao
                 provider:
@@ -49,3 +49,16 @@ spring:
                         user-info-uri: https://kapi.kakao.com/v2/user/me
                         user-name-attribute: id
 
+server :
+    frontEnd : http://localhost:3000
+    backEnd : http://localhost:8090
+    port : 8090
+
+jwt:
+    secret-key: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQsakDKAKSDJAKSKDKAJWNJDNQHSDHGAGWD13kjahdh1283
+    expire-seconds:
+        access-token: 3600
+        refresh-token: 30240000
+    header:
+        access-token: Authorization
+        refresh-token: Authorization-refresh

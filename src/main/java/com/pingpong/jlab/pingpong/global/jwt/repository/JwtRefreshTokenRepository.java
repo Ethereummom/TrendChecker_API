@@ -8,7 +8,7 @@ import com.pingpong.jlab.pingpong.global.jwt.entity.RefreshToken;
 
 public interface JwtRefreshTokenRepository extends JpaRepository<RefreshToken , String>{
 
-    Optional<RefreshToken> findByUserId(String userId);
+    Optional<RefreshToken> findByUserid(String userId);
     Optional<RefreshToken> findByRefreshToken(String refreshToken);
     
 }
