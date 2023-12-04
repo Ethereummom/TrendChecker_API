@@ -45,7 +45,7 @@ public class RecordService {
     public ApiResponse addUserRecord(RecordRequestDto recordInfo, String userinfo){
         
         Optional<User> user= userRepository.findByUserid(userinfo);
-        Asset asset = new Asset((Long)1,"cryptocurrency","bitcoin","65","BTCUSDT");
+        Asset asset = new Asset(1,"cryptocurrency","bitcoin","65","BTCUSDT");
         User recUser = user.get();
         recordInfo.setUser(recUser);
         recordInfo.setAsset(asset);

@@ -26,9 +26,10 @@ public class PostService {
 
     public ApiResponse getPostList(PaginationRequestDto dto){
 
+        List<Post> postEntity2 = postRepository.getPostListWithPaging(dto.getOffset(), dto.getLimit())
         List<Post> postEntity = postRepository.findAll();
         long count = postRepository.count();
-        PaginationResponseDto<PostDto> PostList = new PaginationResponseDto(postEntity, count, dto);
+        PaginationResponseDto<PostDto> PostList = new PaginationResponseDto(postEntity2, count, dto);
 
         if(PostList.getDataList().isEmpty()){
 

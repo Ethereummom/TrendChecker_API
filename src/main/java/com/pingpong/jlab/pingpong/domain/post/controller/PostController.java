@@ -18,7 +18,7 @@ import com.pingpong.jlab.pingpong.global.api.ApiResponse;
 import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
 
 @RestController
-@RequestMapping(value = "/v1/post")
+@RequestMapping("/api/v1/post")
 public class PostController {
 
     @Autowired
