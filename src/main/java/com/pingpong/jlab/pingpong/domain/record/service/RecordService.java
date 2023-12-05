@@ -2,6 +2,7 @@ package com.pingpong.jlab.pingpong.domain.record.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.lang.Long;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,6 +25,13 @@ public class RecordService {
 
     @Autowired
     UserRepository userRepository;
+
+    public ApiResponse getUserRecordDetail(String userinfo,Long recordseq){
+        User user = userRepository.findByUserid(userinfo).get();
+        Record record = recordRepository.findById(recordseq).get();
+
+        return ApiResponse.res(200, "레코드 상세", record);
+    }
     
 
     public ApiResponse getUserRecord(String userinfo){
@@ -34,6 +42,9 @@ public class RecordService {
         records = recordRepository.findByUser(user);
 
         if(!records.isEmpty()){
+            for(Record record : records){
+                record.setPercentage((record.getCurrentprice() - record.getStartprice()) / record.getStartprice() * 100);
+            }
             return ApiResponse.res(200, "Trading Record", records);
         }
         else{
@@ -45,14 +56,15 @@ public class RecordService {
     public ApiResponse addUserRecord(RecordRequestDto recordInfo, String userinfo){
         
         Optional<User> user= userRepository.findByUserid(userinfo);
-        Asset asset = new Asset(1,"cryptocurrency","bitcoin","65","BTCUSDT");
+        Asset asset = new Asset(1,"bond","US10Y","25","US10Y");
         User recUser = user.get();
         recordInfo.setUser(recUser);
-        recordInfo.setAsset(asset);
+        // recordInfo.setAsset(asset);
         Record record = recordInfo.DtoToEntity(recordInfo);
+        recordInfo.setPercentage(0);
 
         Record result = recordRepository.save(record);
-        if (result.getUser().equals(userinfo)){
+        if (result.getUser().getUserid().equals(userinfo)){
             return ApiResponse.res(200, "거래 데이터 등록 완료");
         }
         else{

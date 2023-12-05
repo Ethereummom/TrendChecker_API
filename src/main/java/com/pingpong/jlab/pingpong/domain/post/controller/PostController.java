@@ -46,8 +46,8 @@ public class PostController {
     }
 
     @GetMapping(value ="/{postseq}")
-    public ApiResponse getPostDetail(@PathVariable("postseq") Long post_id){
-        return null;
+    public ApiResponse getPostDetail(@PathVariable("postseq") Long postseq){
+        return postService.getPostDetail(postseq);
     }
     
 }

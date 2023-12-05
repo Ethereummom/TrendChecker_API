@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.lang.Long;
 
 import lombok.AllArgsConstructor;
 
@@ -27,5 +28,15 @@ public class Asset {
 
     @Column(length = 20, nullable = false)
     private String risk;
+
+    public Asset(int assetseq, String name, String symbol, String category, String risk){
+        
+        this.assetseq = Long.valueOf(assetseq);
+        this.name = name;
+        this.symbol = symbol;
+        this.category = category;
+        this.risk = risk;
+
+    }
     
 }

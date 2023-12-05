@@ -22,5 +22,4 @@ public interface RecordRepository extends JpaRepository<Record , Long>{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findAll'");
     }
-    
 }

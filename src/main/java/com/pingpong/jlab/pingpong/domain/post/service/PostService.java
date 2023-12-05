@@ -2,6 +2,7 @@ package com.pingpong.jlab.pingpong.domain.post.service;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class PostService {
 
     public ApiResponse getPostList(PaginationRequestDto dto){
 
-        List<Post> postEntity2 = postRepository.getPostListWithPaging(dto.getOffset(), dto.getLimit())
+        List<Post> postEntity2 = postRepository.getPostListWithPaging(dto.getOffset(), dto.getLimit());
         List<Post> postEntity = postRepository.findAll();
         long count = postRepository.count();
         PaginationResponseDto<PostDto> PostList = new PaginationResponseDto(postEntity2, count, dto);
@@ -62,6 +63,17 @@ public class PostService {
         postRepository.save(postEntity);
 
         return ApiResponse.res(200, "게시물 업데이트 완료");
+    }
+
+    public ApiResponse getPostDetail(Long postseq){
+
+        Optional<Post> post = postRepository.findById(postseq);
+        if(post.isPresent()){
+            return ApiResponse.res(200, "게시물 상세 조회 완료", post.get());
+        }
+        else{
+            return ApiResponse.res(204, "게시물이 삭제되었거나 존재하지 않습니다.");
+        }
     }
     
 }

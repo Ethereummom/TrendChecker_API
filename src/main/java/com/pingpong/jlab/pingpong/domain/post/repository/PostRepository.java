@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.pingpong.jlab.pingpong.domain.post.entity.Post;
 import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
+import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post,Long>{
