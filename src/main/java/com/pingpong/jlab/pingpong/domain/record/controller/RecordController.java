@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pingpong.jlab.pingpong.domain.record.dto.RecordRequestDto;
 import com.pingpong.jlab.pingpong.domain.record.service.RecordService;
 import com.pingpong.jlab.pingpong.global.api.ApiResponse;
+import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
 import com.pingpong.jlab.pingpong.global.jwt.JwtAuthentication;
 
 import lombok.extern.log4j.Log4j2;
@@ -28,8 +29,8 @@ public class RecordController {
 
 
     @GetMapping("")
-    public ApiResponse getUserRecord(@AuthenticationPrincipal JwtAuthentication userinfo){
-        return recordService.getUserRecord(userinfo.getUserid());
+    public ApiResponse getUserRecord(@AuthenticationPrincipal JwtAuthentication userinfo, PaginationRequestDto dto){
+        return recordService.getUserRecord(dto, userinfo.getUserid());
     }
 
     @GetMapping(value = "/{recordseq}")

@@ -16,6 +16,8 @@ import com.pingpong.jlab.pingpong.domain.record.repository.RecordRepository;
 import com.pingpong.jlab.pingpong.domain.user.entity.User;
 import com.pingpong.jlab.pingpong.domain.user.repository.UserRepository;
 import com.pingpong.jlab.pingpong.global.api.ApiResponse;
+import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
+import com.pingpong.jlab.pingpong.global.dto.PaginationResponseDto;
 
 @Service
 public class RecordService {
@@ -34,21 +36,22 @@ public class RecordService {
     }
     
 
-    public ApiResponse getUserRecord(String userinfo){
+    public ApiResponse getUserRecord(PaginationRequestDto dto, String userinfo){
 
         User user = userRepository.findByUserid(userinfo).get();
-        List<Record> records;
-
-        records = recordRepository.findByUser(user);
-
+        List<Record> records = recordRepository.findByUser(user);
         if(!records.isEmpty()){
             for(Record record : records){
                 record.setPercentage((record.getCurrentprice() - record.getStartprice()) / record.getStartprice() * 100);
             }
-            return ApiResponse.res(200, "Trading Record", records);
+        long count = recordRepository.count();
+        PaginationResponseDto<Record> recordList = new PaginationResponseDto<>(records, count,dto);
+
+        
+            return ApiResponse.res(200, "Trading Record", recordList);
         }
         else{
-            return ApiResponse.res(204,"데이터가 존재하지 않습니다",records);
+            return ApiResponse.res(204,"데이터가 존재하지 않습니다");
         }
 
     }

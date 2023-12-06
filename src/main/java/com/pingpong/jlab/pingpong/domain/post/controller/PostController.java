@@ -2,6 +2,7 @@ package com.pingpong.jlab.pingpong.domain.post.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import com.pingpong.jlab.pingpong.domain.post.dto.PostUpdateDto;
 import com.pingpong.jlab.pingpong.domain.post.service.PostService;
 import com.pingpong.jlab.pingpong.global.api.ApiResponse;
 import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
+import com.pingpong.jlab.pingpong.global.jwt.JwtAuthentication;
 
 @RestController
 @RequestMapping("/api/v1/post")
@@ -25,7 +27,7 @@ public class PostController {
     PostService postService;
     
     @GetMapping(value = "")
-    public ApiResponse getPostList(PaginationRequestDto dto){
+    public ApiResponse getPostList(PaginationRequestDto dto,@AuthenticationPrincipal JwtAuthentication userinfo){
         
         return postService.getPostList(dto);
     }
