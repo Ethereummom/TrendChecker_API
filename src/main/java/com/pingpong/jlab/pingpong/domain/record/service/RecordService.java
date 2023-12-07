@@ -31,6 +31,7 @@ public class RecordService {
     public ApiResponse getUserRecordDetail(String userinfo,Long recordseq){
         User user = userRepository.findByUserid(userinfo).get();
         Record record = recordRepository.findById(recordseq).get();
+        record.setPercentage((record.getCurrentprice() - record.getStartprice()) / record.getStartprice() * 100);
 
         return ApiResponse.res(200, "레코드 상세", record);
     }
@@ -59,7 +60,7 @@ public class RecordService {
     public ApiResponse addUserRecord(RecordRequestDto recordInfo, String userinfo){
         
         Optional<User> user= userRepository.findByUserid(userinfo);
-        Asset asset = new Asset(1,"bond","US10Y","25","US10Y");
+        Asset asset = new Asset(1,"bond","US10Y",42110.5,"US10Y","25");
         User recUser = user.get();
         recordInfo.setUser(recUser);
         // recordInfo.setAsset(asset);

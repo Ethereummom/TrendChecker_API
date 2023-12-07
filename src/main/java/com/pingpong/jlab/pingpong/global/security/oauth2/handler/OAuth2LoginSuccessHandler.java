@@ -108,7 +108,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     }
 
     protected String getCustomDefaultTargetUrl2(){
-        return "http://localhost:3000/user";
+        return "http://localhost:3000/main";
     }
     
 }

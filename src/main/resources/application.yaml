@@ -62,3 +62,21 @@ jwt:
     header:
         access-token: Authorization
         refresh-token: Authorization-refresh
+
+cloud:
+    aws:
+        credentials:
+            access-key : AKIARXDLYFBVDCYF6KPB
+            secret-key : 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
+        stack : 
+            auto : false
+        region :
+            static : ap-northeast-2
+        s3 :
+            bucket : godsaengbucket
+    
+s3 :
+    user :
+        path : blabla..
+        folder : trendchecker/
+
