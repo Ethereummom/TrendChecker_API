@@ -30,10 +30,15 @@ public class RecordService {
 
     public ApiResponse getUserRecordDetail(String userinfo,Long recordseq){
         User user = userRepository.findByUserid(userinfo).get();
-        Record record = recordRepository.findById(recordseq).get();
-        record.setPercentage((record.getCurrentprice() - record.getStartprice()) / record.getStartprice() * 100);
+        Optional<Record> records = recordRepository.findById(recordseq);
+        if(records.isPresent()){
+            Record record = records.get();
+            record.setPercentage((record.getCurrentprice() - record.getStartprice()) / record.getStartprice() * 100);
+            return ApiResponse.res(200, "레코드 상세", record);
 
-        return ApiResponse.res(200, "레코드 상세", record);
+        }
+        return ApiResponse.res(204, "데이터가 존재하지 않습니다.");
+
     }
     
 
