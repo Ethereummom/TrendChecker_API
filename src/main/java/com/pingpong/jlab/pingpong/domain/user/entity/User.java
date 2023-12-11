@@ -1,9 +1,6 @@
 package com.pingpong.jlab.pingpong.domain.user.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,11 +8,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import com.pingpong.jlab.pingpong.domain.record.entity.Record;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pingpong.jlab.pingpong.domain.user.dto.UserDto;
 import com.pingpong.jlab.pingpong.global.security.oauth2.Provider;
 
 import lombok.Getter;
@@ -34,6 +32,7 @@ public class User {
     @Column(length = 30, nullable = false)
     private String userid;
 
+    @JsonIgnore
     @Column(length = 200, nullable = false)
     private String password;
 
@@ -59,6 +58,7 @@ public class User {
     @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
     private int accounts;
 
+    @JsonIgnore
     @Column(nullable = false, columnDefinition = "VARCHAR(30)")
     private String role;
 
@@ -82,6 +82,19 @@ public class User {
     @PreUpdate
     public void onUpdate(){
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public UserDto entityToDto(User user){
+
+        UserDto userDTO = new UserDto();
+
+        userDTO.setEmail(user.getEmail());
+        userDTO.setAccounts(user.getAccounts());
+        userDTO.setNickname(user.getNickname());
+        userDTO.setScore(user.getScore());
+
+        return userDTO;
+
     }
     
 }

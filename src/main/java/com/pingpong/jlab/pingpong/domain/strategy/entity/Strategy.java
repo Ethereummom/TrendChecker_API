@@ -15,13 +15,17 @@ import javax.persistence.Table;
 import com.pingpong.jlab.pingpong.domain.asset.entity.Asset;
 import com.pingpong.jlab.pingpong.domain.user.entity.User;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
 @Table
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Strategy {
 
     @Id
@@ -35,7 +39,7 @@ public class Strategy {
     private String content;
 
     @Column(length = 255 , nullable = false)
-    private int startvalue;
+    private double startvalue;
 
     @Column(nullable = false)
     private double calculatedYield;
