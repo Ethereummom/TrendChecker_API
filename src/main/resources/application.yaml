@@ -57,7 +57,7 @@ server :
 jwt:
     secret-key: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQsakDKAKSDJAKSKDKAJWNJDNQHSDHGAGWD13kjahdh1283
     expire-seconds:
-        access-token: 3600
+        access-token: 36000
         refresh-token: 30240000
     header:
         access-token: Authorization
