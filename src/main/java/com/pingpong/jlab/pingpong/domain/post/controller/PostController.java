@@ -33,8 +33,8 @@ public class PostController {
     }
 
     @PostMapping(value = "")
-    public ApiResponse addPost(@RequestBody PostDto dto){
-        return postService.addPost(dto);
+    public ApiResponse addPost(@RequestBody PostDto dto, @AuthenticationPrincipal JwtAuthentication userinfo){
+        return postService.addPost(dto, userinfo.getUserid());
     }
 
     @DeleteMapping(value ="/{postseq}")

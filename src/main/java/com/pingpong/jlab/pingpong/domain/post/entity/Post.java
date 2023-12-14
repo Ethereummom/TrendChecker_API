@@ -7,9 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+
+import com.pingpong.jlab.pingpong.domain.user.entity.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +41,9 @@ public class Post {
 
     @Column(nullable = true)
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    private User user;
 
     @PrePersist
     public void onCreate(){

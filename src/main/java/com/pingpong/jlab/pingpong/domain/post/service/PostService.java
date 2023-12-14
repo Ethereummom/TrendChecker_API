@@ -12,6 +12,8 @@ import com.pingpong.jlab.pingpong.domain.post.dto.PostDto;
 import com.pingpong.jlab.pingpong.domain.post.dto.PostUpdateDto;
 import com.pingpong.jlab.pingpong.domain.post.entity.Post;
 import com.pingpong.jlab.pingpong.domain.post.repository.PostRepository;
+import com.pingpong.jlab.pingpong.domain.user.entity.User;
+import com.pingpong.jlab.pingpong.domain.user.repository.UserRepository;
 import com.pingpong.jlab.pingpong.global.api.ApiResponse;
 import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
 import com.pingpong.jlab.pingpong.global.dto.PaginationResponseDto;
@@ -24,6 +26,9 @@ public class PostService {
 
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     public ApiResponse getPostList(PaginationRequestDto dto){
 
@@ -41,9 +46,11 @@ public class PostService {
         }
 }
 
-    public ApiResponse addPost(PostDto dto){
+    public ApiResponse addPost(PostDto dto, String userid){
         
         Post postEntity = dto.dtoToEntity(dto);
+        Optional<User> user = userRepository.findByUserid(userid);
+        postEntity.setUser(user.get());
         postRepository.save(postEntity);
 
         return ApiResponse.res(200, "게시물 등록 완료");
