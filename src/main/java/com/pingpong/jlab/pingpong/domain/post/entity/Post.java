@@ -42,6 +42,9 @@ public class Post {
     @Column(nullable = true)
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int recommend;
+
     @ManyToOne
     private User user;
 

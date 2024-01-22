@@ -17,6 +17,9 @@ import com.pingpong.jlab.pingpong.global.api.ApiResponse;
 import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
 import com.pingpong.jlab.pingpong.global.jwt.JwtAuthentication;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @RestController
 @RequestMapping("/api/v1/strategy")
 public class StrategyController {
@@ -38,6 +41,7 @@ public class StrategyController {
 
     @PostMapping(value = "")
     public ApiResponse addStrategy(@RequestBody StrategyDTO dto, @AuthenticationPrincipal JwtAuthentication userinfo){
+        
         return strategyService.addStrategy(dto, userinfo.getUserid());
     }
 

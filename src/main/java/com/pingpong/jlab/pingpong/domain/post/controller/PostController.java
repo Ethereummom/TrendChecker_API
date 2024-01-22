@@ -19,6 +19,9 @@ import com.pingpong.jlab.pingpong.global.api.ApiResponse;
 import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
 import com.pingpong.jlab.pingpong.global.jwt.JwtAuthentication;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @RestController
 @RequestMapping("/api/v1/post")
 public class PostController {
@@ -34,6 +37,7 @@ public class PostController {
 
     @PostMapping(value = "")
     public ApiResponse addPost(@RequestBody PostDto dto, @AuthenticationPrincipal JwtAuthentication userinfo){
+        
         return postService.addPost(dto, userinfo.getUserid());
     }
 

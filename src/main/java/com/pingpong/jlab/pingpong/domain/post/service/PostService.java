@@ -1,10 +1,12 @@
 package com.pingpong.jlab.pingpong.domain.post.service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.pingpong.jlab.pingpong.domain.post.repository.PostRepositoryCustomImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,17 +34,25 @@ public class PostService {
 
     public ApiResponse getPostList(PaginationRequestDto dto){
 
-        List<Post> postEntity2 = postRepository.getPostListWithPaging(dto.getOffset(), dto.getLimit());
-        List<Post> postEntity = postRepository.findAll();
-        long count = postRepository.count();
-        PaginationResponseDto<PostDto> PostList = new PaginationResponseDto(postEntity2, count, dto);
+        String category = dto.getCategory();
+        String keyword = dto.getKeyword();
 
-        if(PostList.getDataList().isEmpty()){
+//        List<Post> postEntity2 = new ArrayList<>();
+//        List<Post> postEntity = new ArrayList<>();
+//
+//        postEntity2 = postRepository.getPostListWithPaging(dto.getOffset(), dto.getLimit());
+//        postEntity = postRepository.findAll();
+//        long count = postRepository.count();
+//        PaginationResponseDto<PostDto> postList = new PaginationResponseDto(postEntity2, count, dto);
 
-            return ApiResponse.res(204,"데이터가 존재하지 않습니다.",PostList);
+        PaginationResponseDto<Post> postList = postRepository.getPostListWithSearchAndPaging(dto);
+    
+        if(postList.getDataList().isEmpty()){
+
+            return ApiResponse.res(204,"데이터가 존재하지 않습니다.",postList);
         }
         else{
-            return ApiResponse.res(200, "게시물 리스트" , PostList);
+            return ApiResponse.res(200, "게시물 리스트" , postList);
         }
 }
 
