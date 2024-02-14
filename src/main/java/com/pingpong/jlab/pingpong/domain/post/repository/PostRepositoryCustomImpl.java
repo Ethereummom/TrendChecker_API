@@ -49,7 +49,7 @@
              case "ALL":
                  return post.title.contains(dto.getKeyword())
                          .or(post.content.contains(dto.getKeyword())
-                                 .or(post.user.nickname.contains(dto.getKeyword())));
+                                 .or(post.user.email.contains(dto.getKeyword())));
              case "TITLE":
                  return post.title.contains(dto.getKeyword());
             
@@ -59,6 +59,10 @@
              case "TITLEANDCONTENT":
                  return post.title.contains(dto.getKeyword())
                      .or(post.content.contains(dto.getKeyword()));
+
+             case "AUTHOR":
+                 return post.user.email.contains(dto.getKeyword());
+
              default:
                  return null;
          }
