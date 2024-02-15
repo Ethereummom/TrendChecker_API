@@ -3,6 +3,7 @@ package com.pingpong.jlab.pingpong.domain.strategy.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,23 +29,24 @@ public class StrategyService {
     AssetRepository assetRepository;
     
 
-    public ApiResponse getStrategyTopFiveRank(){
+    public ApiResponse getStrategyTopFiveRank(PaginationRequestDto dto){
+        if(dto == null){
+            List<Strategy> strategyRank = strategyRepository.getStrategyListBycalculatedYield();
 
-        List<Strategy> strategyRank = strategyRepository.getStrategyListBycalculatedYield();
-        
-        if(!strategyRank.isEmpty() && !(strategyRank == null)){
+            if(!(strategyRank==null) && !strategyRank.isEmpty()){
 
-            for(Strategy rankList : strategyRank){
+                for(Strategy rankList : strategyRank){
 
-    
-
+                }
+                return ApiResponse.res(200, "수익률 TOP 5 RANK", strategyRank);
+            }
+            else{
+                return ApiResponse.res(204, "해당 데이터 없음");
             }
 
-            return ApiResponse.res(200, "수익률 TOP 5 RANK", strategyRank);
         }
-        else{
-            return ApiResponse.res(204, "해당 데이터 없음");
-        }
+        List<Strategy> strategyRank = strategyRepository.getStrategyListByRecommendationsAll();
+        return ApiResponse.res(200, "전체 랭킹", strategyRank);
     }
 
     public ApiResponse addStrategy(StrategyDTO dto, String userinfo){

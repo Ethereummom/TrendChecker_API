@@ -34,8 +34,8 @@ public class StrategyController {
     }
 
     @GetMapping(value="/rank")
-    public ApiResponse getStrategyTopFiveRank(@AuthenticationPrincipal JwtAuthentication userinfo){
-        return strategyService.getStrategyTopFiveRank();
+    public ApiResponse getStrategyTopFiveRank(@AuthenticationPrincipal JwtAuthentication userinfo, PaginationRequestDto dto){
+        return strategyService.getStrategyTopFiveRank(dto);
 
     }
 

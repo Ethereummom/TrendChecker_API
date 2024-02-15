@@ -44,6 +44,9 @@ public class Strategy {
     @Column(nullable = false)
     private double calculatedYield;
 
+    @Column(nullable = false)
+    private Integer recommendations;
+
     @ManyToOne
     private Asset asset;
 
