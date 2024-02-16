@@ -54,5 +54,10 @@ public class StrategyController {
     public ApiResponse deleteStrategy(@PathVariable("strategyseq")Long strategyseq){
         return null;
     }
+
+    @GetMapping(value="/todays")
+    public ApiResponse getTodaysStrategy(@AuthenticationPrincipal JwtAuthentication userinfo){
+        return strategyService.getSortedStrategy(2L);
+    }
     
 }

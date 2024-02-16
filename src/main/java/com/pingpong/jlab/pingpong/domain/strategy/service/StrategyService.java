@@ -64,7 +64,10 @@ public class StrategyService {
 
         strategyRepository.deleteById(strategyseq);
         return ApiResponse.res(200, "전략 삭제 완료");
+    }
 
-
+    public ApiResponse getSortedStrategy(Long strategyseq){
+        Strategy toDaysStrategy = strategyRepository.getTodaysTopStrategy();
+        return ApiResponse.res(200, "오늘의 최고 전략", toDaysStrategy);
     }
 }

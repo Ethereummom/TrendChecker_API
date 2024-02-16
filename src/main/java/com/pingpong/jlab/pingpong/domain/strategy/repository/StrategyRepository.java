@@ -19,4 +19,7 @@ public interface StrategyRepository extends JpaRepository<Strategy, Long>{
 
     @Query(value = "select * from strategy ORDER BY recommendations asc", nativeQuery = true)
     List<Strategy> getStrategyListByRecommendationsAll();
+
+    @Query(value = "select * from strategy ORDER BY recommendations asc", nativeQuery = true)
+    Strategy getTodaysTopStrategy();
 }
