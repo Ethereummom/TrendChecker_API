@@ -23,7 +23,10 @@ public enum ErrorCode {
 	// Token
 	REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A001", "존재하지 않는 리프레쉬 토큰입니다."),
 	TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "A002", "유효하지 않은 토큰입니다."),
-	TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "A003", "만료된 토큰입니다.");
+	TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "A003", "만료된 토큰입니다."),
+
+	//Entity
+	ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, "E001" , "존재하지 않는 엔티티입니다.");
 
     private final HttpStatus status;
 	private final String code;
