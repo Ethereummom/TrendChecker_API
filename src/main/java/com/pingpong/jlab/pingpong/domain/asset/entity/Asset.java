@@ -33,7 +33,7 @@ public class Asset {
     private String symbol;
 
     @Column(nullable = false)
-    private double currentprice;
+    private Double currentprice;
 
     @Column(length = 20, nullable = false)
     private String category;
@@ -44,7 +44,7 @@ public class Asset {
     @Column(length = 255, nullable = true)
     private String thumbnailUrl;
 
-    public Asset(int assetseq, String name, String symbol, double currentprice, String category, String risk){
+    public Asset(int assetseq, String name, String symbol, Double currentprice, String category, String risk){
         
         this.assetseq = Long.valueOf(assetseq);
         this.name = name;
