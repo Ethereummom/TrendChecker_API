@@ -39,10 +39,10 @@ public class Strategy {
     private String content;
 
     @Column(length = 255 , nullable = false)
-    private double startvalue;
+    private Double startvalue;
 
     @Column(nullable = false)
-    private double calculatedYield;
+    private Double calculatedYield;
 
     @Column(nullable = false)
     private Integer recommendations;
@@ -69,6 +69,11 @@ public class Strategy {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public void addRecommend(){
+        this.recommendations++;
+    }
 
-    
+    public void decreaseRecommend(){
+        this.recommendations--;
+    }
 }

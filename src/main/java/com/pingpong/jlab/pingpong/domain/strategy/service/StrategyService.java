@@ -87,6 +87,11 @@ public class StrategyService {
             return ApiResponse.res(500, ErrorCode.USER_NOT_FOUND.getMessage());
         }
         dto.setUser(user.get());
+        // 데이터 조회 전 자산 현재 가격 갱신
+        ApiResponse res = assetService.updateAssetInfo(dto.getAssetType());
+        if(res.getResponseCode() != 200){
+            return ApiResponse.res(500, res.getMessage());
+        }
         Optional<Asset> asset = assetRepository.findBySymbol(dto.getAssetType());
 
         if(asset.isEmpty()){
@@ -99,13 +104,30 @@ public class StrategyService {
         return ApiResponse.res(200, "데이터 등록 완료");
     }
 
-    public ApiResponse deleteStrategy(Long strategyseq){
-
-        strategyRepository.deleteById(strategyseq);
+    public ApiResponse deleteStrategy(Long strategySeq){
+        if(strategySeq==null){
+            return ApiResponse.res(400,ErrorCode.MISSING_INPUT_VALUE.getMessage());
+        }
+        strategyRepository.deleteById(strategySeq);
         return ApiResponse.res(200, "전략 삭제 완료");
     }
-    public ApiResponse getSortedStrategy(Long strategyseq){
+    public ApiResponse getSortedStrategy(Long strategySeq){
         Strategy toDaysStrategy = strategyRepository.getTodaysTopStrategy();
         return ApiResponse.res(200, "오늘의 최고 전략", toDaysStrategy);
+    }
+
+    public ApiResponse increaseRecommend(Long strategySeq){
+        Optional<Strategy> strategy = strategyRepository.findById(strategySeq);
+        Strategy strategyEntity = strategy.get();
+        strategyEntity.addRecommend();
+        strategyRepository.save(strategyEntity);
+        return ApiResponse.res(200,"추천되었습니다");
+    }
+    public ApiResponse decreaseRecommend(Long strategySeq){
+        Optional<Strategy> strategy = strategyRepository.findById(strategySeq);
+        Strategy strategyEntity = strategy.get();
+        strategyEntity.decreaseRecommend();
+        strategyRepository.save(strategyEntity);
+        return ApiResponse.res(200, "추천취소되었습니다");
     }
 }

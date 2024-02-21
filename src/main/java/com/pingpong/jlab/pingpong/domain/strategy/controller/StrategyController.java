@@ -1,15 +1,9 @@
 package com.pingpong.jlab.pingpong.domain.strategy.controller;
 
+import com.pingpong.jlab.pingpong.global.error.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.pingpong.jlab.pingpong.domain.strategy.dto.StrategyDTO;
 import com.pingpong.jlab.pingpong.domain.strategy.service.StrategyService;
@@ -29,7 +23,7 @@ public class StrategyController {
 
     @GetMapping(value="")
     public ApiResponse getStrategyList(PaginationRequestDto dto, @AuthenticationPrincipal JwtAuthentication userinfo){
-        
+//        strategyService.getStrategyList(dto.getCategory(),)
         return null;
     }
 
@@ -50,14 +44,25 @@ public class StrategyController {
         return null;
     }
 
-    @DeleteMapping(value = "/{strategyseq}")
-    public ApiResponse deleteStrategy(@PathVariable("strategyseq")Long strategyseq){
+    @DeleteMapping(value = "/{strategySeq}")
+    public ApiResponse deleteStrategy(@PathVariable("strategySeq")Long strategySeq){
         return null;
     }
 
-    @GetMapping(value="/todays")
+    @GetMapping(value="/daily")
     public ApiResponse getTodaysStrategy(@AuthenticationPrincipal JwtAuthentication userinfo){
         return strategyService.getSortedStrategy(2L);
     }
-    
+
+    @GetMapping("/recommends/{strategySeq}")
+    public ApiResponse treatRecommend(@RequestParam("strategySeq")Long strategySeq ,@RequestParam int status,
+                                      @AuthenticationPrincipal JwtAuthentication userinfo){
+        if(status == 0){
+            return strategyService.decreaseRecommend(strategySeq);
+        }
+        else if(status == 1){
+            return strategyService.increaseRecommend(strategySeq);
+        }
+        return ApiResponse.res(400, ErrorCode.INVALID_INPUT_VALUE.getMessage());
+    }
 }

@@ -30,7 +30,7 @@ public class StrategyDTO {
         strategy.setTitle(dto.getTitle());
         strategy.setContent(dto.getContent());
         strategy.setStartvalue(dto.getStartvalue());
-        strategy.setCalculatedYield(0);
+        strategy.setCalculatedYield(0.0);
         strategy.setUser(dto.getUser());
         strategy.setAsset(dto.getAsset());
 
