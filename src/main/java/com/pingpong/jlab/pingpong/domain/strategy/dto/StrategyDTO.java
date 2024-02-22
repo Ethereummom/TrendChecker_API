@@ -26,7 +26,6 @@ public class StrategyDTO {
 
     public Strategy dtoToEntity(StrategyDTO dto){
         Strategy strategy = new Strategy();
-
         strategy.setTitle(dto.getTitle());
         strategy.setContent(dto.getContent());
         strategy.setStartvalue(dto.getStartvalue());

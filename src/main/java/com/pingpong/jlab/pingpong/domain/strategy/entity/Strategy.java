@@ -53,6 +53,12 @@ public class Strategy {
     @ManyToOne
     private User user;
 
+    @Column(nullable = false, columnDefinition = "VARCHAR(1) DEFAULT 'N'")
+    private String endYn;
+
+    @Column(nullable = false, columnDefinition = "int DEFAULT 0")
+    private int subscriberCount;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -71,6 +77,10 @@ public class Strategy {
 
     public void addRecommend(){
         this.recommendations++;
+    }
+
+    public void addSubscriberCount(){
+        this.subscriberCount++;
     }
 
     public void decreaseRecommend(){
