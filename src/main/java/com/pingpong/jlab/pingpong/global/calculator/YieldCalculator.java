@@ -7,7 +7,7 @@ public class YieldCalculator {
         if(startPrice == null || currentPrice == null || startPrice <= 0 || currentPrice <= 0){
             throw new IllegalArgumentException("Invalid Input Values");
         }
-        return ((currentPrice - startPrice) * 100);
+        return ((currentPrice - startPrice)/startPrice * 100);
     }
 
     // 수익률 연단위로 계산

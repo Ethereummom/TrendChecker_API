@@ -33,7 +33,7 @@ public class StrategyDtoConverter {
 
     private static StrategyResponseDTO strategyDtoBuilder(Strategy strategy){
 
-        log.info("strategyEntity :::: {}" , strategy);
+        log.info("strategyEntity :::: {}" , strategy.getUser().getNickname());
 
         return StrategyResponseDTO.builder()
                 .strategySeq(strategy.getStrategySeq())

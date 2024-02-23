@@ -78,12 +78,17 @@ public class Strategy {
     public void addRecommend(){
         this.recommendations++;
     }
+    public void decreaseRecommend(){
+        this.recommendations--;
+    }
 
     public void addSubscriberCount(){
         this.subscriberCount++;
     }
 
-    public void decreaseRecommend(){
-        this.recommendations--;
+    public void decreaseSubscriberCount(){
+        this.subscriberCount--;
     }
+
+
 }

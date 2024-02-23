@@ -30,16 +30,16 @@ public class StrategyResponseDTO {
 
     @Builder
     public StrategyResponseDTO(Long strategySeq, String title, String content, String author, double startvalue, double calculatedYield,
-                               String assetType, Asset asset, User user, LocalDateTime createdAt,LocalDateTime endedAt,
+                               String assetType ,LocalDateTime createdAt,LocalDateTime endedAt,
                                int recommendations ,int subscriberCount){
 
         this.strategySeq = strategySeq;
         this.title = title;
         this.content = content;
-        this.author = user.getNickname();
+        this.author = author;
         this.startvalue = startvalue;
         this.calculatedYield = calculatedYield;
-        this.assetType = asset.getName();
+        this.assetType = assetType;
         this.createdAt = createdAt;
         this.endedAt = endedAt;
         this.recommendations = recommendations;

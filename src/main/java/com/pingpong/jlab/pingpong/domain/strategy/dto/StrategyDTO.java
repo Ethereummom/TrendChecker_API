@@ -31,6 +31,8 @@ public class StrategyDTO {
         strategy.setStartvalue(dto.getStartvalue());
         strategy.setCalculatedYield(0.0);
         strategy.setUser(dto.getUser());
+        strategy.setEndYn("N");
+        strategy.setRecommendations(0);
         strategy.setAsset(dto.getAsset());
 
         return strategy;
