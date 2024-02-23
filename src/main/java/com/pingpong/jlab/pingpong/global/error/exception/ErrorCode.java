@@ -19,6 +19,9 @@ public enum ErrorCode {
     // User
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U001", "존재하지 않는 사용자입니다."),
 	USER_INVALID(HttpStatus.BAD_REQUEST, "U002", "권한이 없는 사용자입니다."),
+	USER_ALREADY_SUBSCRIBED(HttpStatus.OK, "U003" , "이미 구독중인 전략입니다."),
+	USER_ALREADY_RECOMMENDED(HttpStatus.OK, "U004" , "이미 추쳔하셨습니다."),
+
 
 	// Token
 	REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A001", "존재하지 않는 리프레쉬 토큰입니다."),

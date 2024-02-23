@@ -29,7 +29,7 @@ public class ApiResponse<T> {
      * 결과 객체도 존재
      */
 
-     public static<T> ApiResponse<T> res(final int code, final String message){
+    public static<T> ApiResponse<T> res(final int code, final String message){
         return res(code, message, null);
     }
 
