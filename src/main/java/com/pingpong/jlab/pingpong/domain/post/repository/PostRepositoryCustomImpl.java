@@ -67,4 +67,12 @@
                  return null;
          }
      }
+
+     private BooleanExpression sortWithRank(PaginationRequestDto dto){
+         String category = dto.getCategory();
+         if(Objects.isNull(category)){
+             return null;
+         }
+         return null;
+     }
  }

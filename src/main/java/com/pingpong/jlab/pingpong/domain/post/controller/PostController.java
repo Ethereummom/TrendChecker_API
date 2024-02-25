@@ -1,6 +1,7 @@
 package com.pingpong.jlab.pingpong.domain.post.controller;
 
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +24,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RestController
+@Tag(name = "Post Controller" , description = "게시물 데이터 호출 API")
 @RequestMapping("/api/v1/post")
 public class PostController {
 

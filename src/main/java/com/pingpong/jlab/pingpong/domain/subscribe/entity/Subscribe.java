@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Subscribe {
 
     @Id
@@ -29,7 +28,7 @@ public class Subscribe {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime updatedAt;
 
     @PrePersist
@@ -40,6 +39,12 @@ public class Subscribe {
     @PreUpdate
     public void onUpdate(){
         this.updatedAt = LocalDateTime.now();
+    }
+
+    @Builder
+    public Subscribe(Strategy strategy, User user){
+        this.strategy = strategy;
+        this.user = user;
     }
 
 
