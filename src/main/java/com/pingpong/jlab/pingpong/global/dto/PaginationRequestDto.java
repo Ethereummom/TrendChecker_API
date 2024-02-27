@@ -34,6 +34,13 @@ public class PaginationRequestDto {
         this.limit = limit;
     }
 
+    public PaginationRequestDto(String category){
+
+        this.page = DEFAULT_PAGE;
+        this.limit = DEFAULT_LIMIT;
+        this.category = category;
+    }
+
     public PaginationRequestDto(String category , String keyword){
         
         this.page = DEFAULT_PAGE;

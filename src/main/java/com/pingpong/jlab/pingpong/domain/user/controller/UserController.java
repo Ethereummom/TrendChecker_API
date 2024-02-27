@@ -1,5 +1,6 @@
 package com.pingpong.jlab.pingpong.domain.user.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
 
 import lombok.extern.log4j.Log4j2;
 
+@Tag(name="User Controller" , description ="유저 데이터 관련 API")
 @Log4j2
 @RestController
 @RequestMapping("/api/v1/user")

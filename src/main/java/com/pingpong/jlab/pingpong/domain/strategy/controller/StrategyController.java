@@ -73,14 +73,14 @@ public class StrategyController {
 
     }
 
-    @GetMapping("/recommends/{strategySeq}")
+    @GetMapping("/recommends")
     public ApiResponse treatRecommend(@RequestParam("strategySeq")Long strategySeq ,@RequestParam int status,
                                       @AuthenticationPrincipal JwtAuthentication userinfo){
         if(status == 0){
-            return strategyService.decreaseRecommend(strategySeq);
+            return strategyService.decreaseRecommend(strategySeq, userinfo.getUserid());
         }
         else if(status == 1){
-            return strategyService.increaseRecommend(strategySeq);
+            return strategyService.increaseRecommend(strategySeq, userinfo.getUserid());
         }
         return ApiResponse.res(400, ErrorCode.INVALID_INPUT_VALUE.getMessage());
     }

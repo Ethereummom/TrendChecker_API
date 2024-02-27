@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.pingpong.jlab.pingpong.domain.post.dto.PostResponseDto;
 import com.pingpong.jlab.pingpong.domain.post.repository.PostRepositoryCustomImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class PostService {
 //        long count = postRepository.count();
 //        PaginationResponseDto<PostDto> postList = new PaginationResponseDto(postEntity2, count, dto);
 
-        PaginationResponseDto<Post> postList = postRepository.getPostListWithSearchAndPaging(dto);
+        PaginationResponseDto<PostResponseDto> postList = postRepository.getPostListWithSearchAndPaging(dto);
     
         if(postList.getDataList().isEmpty()){
 

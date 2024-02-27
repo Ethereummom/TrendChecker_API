@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.pingpong.jlab.pingpong.domain.asset.service.AssetService;
+import com.pingpong.jlab.pingpong.domain.recommend.entity.Recommend;
+import com.pingpong.jlab.pingpong.domain.recommend.repository.RecommendRepository;
 import com.pingpong.jlab.pingpong.domain.strategy.converter.StrategyDtoConverter;
 import com.pingpong.jlab.pingpong.domain.subscribe.converter.SubscribeDtoConverter;
 import com.pingpong.jlab.pingpong.domain.subscribe.entity.Subscribe;
@@ -45,6 +47,9 @@ public class StrategyService {
 
     @Autowired
     SubscribeRepository subscribeRepository;
+
+    @Autowired
+    RecommendRepository recommendRepository;
     
 
     public ApiResponse getStrategyTopFiveRank(PaginationRequestDto dto){
@@ -168,19 +173,39 @@ public class StrategyService {
         Strategy toDaysStrategy = strategyRepository.getTodaysTopStrategy();
         return ApiResponse.res(200, "오늘의 최고 전략", toDaysStrategy);
     }
-
-    public ApiResponse increaseRecommend(Long strategySeq){
+    @Transactional
+    public ApiResponse increaseRecommend(Long strategySeq , String userId){
         Optional<Strategy> strategy = strategyRepository.findById(strategySeq);
+        Optional<User> user = userRepository.findByUserid(userId);
+        if(recommendRepository.findRecommendByUserAndStrategy(user.get(),strategy.get()).isPresent()){
+            return ApiResponse.res(400,ErrorCode.USER_ALREADY_RECOMMENDED.getMessage());
+        }
+
         Strategy strategyEntity = strategy.get();
         strategyEntity.addRecommend();
         strategyRepository.save(strategyEntity);
+
+        Recommend recommendEntity = Recommend.builder()
+                .user(user.get())
+                .strategy(strategyEntity)
+                .build();
+        recommendRepository.save(recommendEntity);
+
         return ApiResponse.res(200,"추천되었습니다");
     }
-    public ApiResponse decreaseRecommend(Long strategySeq){
+    @Transactional
+    public ApiResponse decreaseRecommend(Long strategySeq, String userId){
+        Optional<User> user = userRepository.findByUserid(userId);
         Optional<Strategy> strategy = strategyRepository.findById(strategySeq);
+        if(recommendRepository.findRecommendByUserAndStrategy(user.get(),strategy.get()).isEmpty()){
+            return ApiResponse.res(400,ErrorCode.USER_STILL_NOT_RECOMMENDED.getMessage());
+        }
+
         Strategy strategyEntity = strategy.get();
         strategyEntity.decreaseRecommend();
         strategyRepository.save(strategyEntity);
+
+        recommendRepository.deleteByUserAndStrategy(user.get(), strategy.get());
         return ApiResponse.res(200, "추천취소되었습니다");
     }
     @Transactional

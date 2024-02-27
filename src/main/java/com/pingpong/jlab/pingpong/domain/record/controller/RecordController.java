@@ -1,5 +1,6 @@
 package com.pingpong.jlab.pingpong.domain.record.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import com.pingpong.jlab.pingpong.global.jwt.JwtAuthentication;
 
 import lombok.extern.log4j.Log4j2;
 
+@Tag(name = "Record Controller" , description = "투자 기록 데이터 관련 API")
 @Log4j2
 @RestController
 @RequestMapping("/api/v1/record")

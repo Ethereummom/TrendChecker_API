@@ -3,6 +3,8 @@
  import java.util.List;
  import java.util.Objects;
 
+ import com.pingpong.jlab.pingpong.domain.post.converter.PostDtoConverter;
+ import com.pingpong.jlab.pingpong.domain.post.dto.PostResponseDto;
  import com.pingpong.jlab.pingpong.global.dto.PaginationResponseDto;
  import lombok.extern.slf4j.Slf4j;
  import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -22,7 +24,7 @@
     
     
      @Override
-     public PaginationResponseDto<Post> getPostListWithSearchAndPaging(PaginationRequestDto dto){
+     public PaginationResponseDto<PostResponseDto> getPostListWithSearchAndPaging(PaginationRequestDto dto){
          JPQLQuery<Post> query = from(post)
              .where(searchWithCondition(dto))
                  .offset(dto.getOffset())
@@ -31,9 +33,9 @@
 
              List<Post> postList = query.fetch();
              long count = query.fetchCount();
-             PaginationResponseDto<Post> postListWithpaging = new PaginationResponseDto<>(postList,count,dto);
-             log.info("datalist " + postListWithpaging);
-             return postListWithpaging;
+             PaginationResponseDto<PostResponseDto> postListWithPaging = new PaginationResponseDto<>(PostDtoConverter.convert(postList),count,dto);
+             log.info("datalist " + postListWithPaging);
+             return postListWithPaging;
 
      }
 

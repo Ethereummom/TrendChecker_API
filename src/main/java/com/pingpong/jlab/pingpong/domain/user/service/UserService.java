@@ -3,6 +3,7 @@ package com.pingpong.jlab.pingpong.domain.user.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.pingpong.jlab.pingpong.domain.user.converter.UserResponseDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -51,7 +52,7 @@ public class UserService {
     public ApiResponse getAllUserList(PaginationRequestDto dto){
         List<User> userList = userRepository.findAll();
         long totalCount = userRepository.count();
-        PaginationResponseDto<UserResponseDto> userlist = new PaginationResponseDto(userList, totalCount,dto);
+        PaginationResponseDto<UserResponseDto> userlist = new PaginationResponseDto(UserResponseDtoConverter.convert(userList), totalCount,dto);
         return ApiResponse.res(200, "유저목록", userlist);
     }
 
@@ -59,7 +60,7 @@ public class UserService {
         Optional<User> userDetail = userRepository.findById(userseq);
 
         if(userDetail.isPresent()){
-            return ApiResponse.res(200, "유저상세", userDetail.get());
+            return ApiResponse.res(200, "유저상세", UserResponseDtoConverter.convert(userDetail.get()));
         }
         else{
             return ApiResponse.res(204, "해당 유저 정보가 존재하지 않습니다.");
@@ -86,7 +87,7 @@ public class UserService {
 
         if (userDetails.getAuthorities().equals("ADMIN")){
             List<User> adminlist = userRepository.findByRole("ADMIN");
-            return ApiResponse.res(200,"관리자 리스트", adminlist);
+            return ApiResponse.res(200,"관리자 리스트", UserResponseDtoConverter.convert(adminlist));
         }
         else{
             return ApiResponse.res(204, "해당 유저는 관리자가 아닙니다.");
