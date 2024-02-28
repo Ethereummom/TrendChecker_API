@@ -7,6 +7,7 @@ import com.pingpong.jlab.pingpong.domain.asset.service.AssetService;
 import com.pingpong.jlab.pingpong.domain.recommend.entity.Recommend;
 import com.pingpong.jlab.pingpong.domain.recommend.repository.RecommendRepository;
 import com.pingpong.jlab.pingpong.domain.strategy.converter.StrategyDtoConverter;
+import com.pingpong.jlab.pingpong.domain.strategy.dto.StrategyResponseDTO;
 import com.pingpong.jlab.pingpong.domain.subscribe.converter.SubscribeDtoConverter;
 import com.pingpong.jlab.pingpong.domain.subscribe.entity.Subscribe;
 import com.pingpong.jlab.pingpong.domain.subscribe.repository.SubscribeRepository;
@@ -72,25 +73,12 @@ public class StrategyService {
         return ApiResponse.res(200, "전체 랭킹", strategyRank);
     }
     @Transactional
-    public ApiResponse getStrategyList(PaginationRequestDto dto, Long strategySeq){
-        // 데이터 조회 전 자산 현재 가격 갱신
-        ApiResponse res = assetService.updateAssetInfo(dto.getCategory());
-        if(res.getResponseCode() != 200){
-            return ApiResponse.res(500, res.getMessage());
-        }
+    public ApiResponse getStrategyList(PaginationRequestDto dto){
+        // 데이터 조회 전 자산 현재 가격 갱신 - 추후 구현
+
 
         // 자산 현재 가격 갱신 후 수익률 계산 후 업데이트
-        Optional<Strategy> strategy = strategyRepository.findById(strategySeq);
-        Strategy sortedStrategy = strategy.get();
-
-        Double startPrice = sortedStrategy.getStartvalue();
-        Double currentPrice = sortedStrategy.getAsset().getCurrentprice();
-
-        sortedStrategy.setCalculatedYield(YieldCalculator.calculatePercentageYield(startPrice, currentPrice));
-        strategyRepository.save(sortedStrategy);
-
-
-        PaginationResponseDto<Strategy> strategyInfo = strategyRepository.findStrategyByCategory(dto);
+        PaginationResponseDto<StrategyResponseDTO> strategyInfo = strategyRepository.findStrategyByCategoryAndKeyword(dto);
 
         return ApiResponse.res(200, "투자 전략 랭킹", strategyInfo);
     }

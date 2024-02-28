@@ -10,4 +10,6 @@ import java.util.List;
 public interface StrategyRepositoryCustom {
 
     public PaginationResponseDto<Strategy> findStrategyByCategory(PaginationRequestDto dto);
+
+    public PaginationResponseDto<StrategyResponseDTO> findStrategyByCategoryAndKeyword(PaginationRequestDto dto);
 }

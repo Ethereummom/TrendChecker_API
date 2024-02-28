@@ -1,5 +1,7 @@
 package com.pingpong.jlab.pingpong.domain.strategy.repository;
 
+import com.pingpong.jlab.pingpong.domain.strategy.converter.StrategyDtoConverter;
+import com.pingpong.jlab.pingpong.domain.strategy.dto.StrategyResponseDTO;
 import com.pingpong.jlab.pingpong.domain.strategy.entity.Strategy;
 import com.pingpong.jlab.pingpong.global.dto.PaginationRequestDto;
 import com.pingpong.jlab.pingpong.global.dto.PaginationResponseDto;
@@ -37,6 +39,26 @@ public class StrategyRepositoryCustomImpl extends QuerydslRepositorySupport impl
     }
 
     /**
+     *
+     * 사용자가 투자전략 검색 시 조건에 따라 데이터 출력하는 쿼리
+     * @param dto
+     * @return Strategy List Sorted By SearchOptions And Keyword
+     *
+     */
+    @Override
+    public PaginationResponseDto<StrategyResponseDTO> findStrategyByCategoryAndKeyword(PaginationRequestDto dto){
+        JPQLQuery<Strategy> query = from(strategy)
+                .where(searchWithCategory(dto))
+                .where(strategy.endYn.eq("N"))
+                .offset(dto.getOffset())
+                .limit(dto.getLimit());
+        query.orderBy(strategy.createdAt.desc());
+        List<Strategy> strategyList = query.fetch();
+        long count = query.fetchCount();
+        return new PaginationResponseDto<>(StrategyDtoConverter.convert(strategyList), count, dto);
+    }
+
+    /**
      * BooleanExpression 조건식
      * */
     private BooleanExpression strategySortByCategory(String category){
@@ -45,5 +67,38 @@ public class StrategyRepositoryCustomImpl extends QuerydslRepositorySupport impl
             return null;
         }
         return strategy.asset.symbol.eq(category);
+    }
+
+    private BooleanExpression searchWithCategory(PaginationRequestDto dto){
+        String category = dto.getCategory();
+
+        log.info("category ::: " + category + " | keyword ::: " + dto.getKeyword() + " | page :::" + dto.getPage());
+        if(category == null){
+            return null;
+        }
+        if(dto.getKeyword() == null){
+            return null;
+        }
+
+        switch(category.toUpperCase()){
+            case "ALL" :
+                return strategy.asset.symbol.contains(dto.getKeyword())
+                        .or(strategy.title.contains(dto.getKeyword()))
+                        .or(strategy.content.contains(dto.getKeyword()))
+                        .or(strategy.user.nickname.contains(dto.getKeyword()));
+            case "TITLE" :
+                return strategy.title.contains(dto.getKeyword());
+            case "CONTENT" :
+                return strategy.content.contains(dto.getKeyword());
+            case "TITLEANDCONTENT":
+                return strategy.title.contains(dto.getKeyword())
+                        .or(strategy.content.contains(dto.getKeyword()));
+            case "AUTHOR" :
+                return strategy.user.nickname.contains(dto.getKeyword());
+            case "TYPE" :
+                return strategy.asset.symbol.contains(dto.getKeyword());
+            default :
+                return null;
+        }
     }
 }

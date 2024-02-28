@@ -25,11 +25,12 @@ public class StrategyController {
 
 
 
-//    @GetMapping(value="")
-//    public ApiResponse getStrategyList(PaginationRequestDto dto, @AuthenticationPrincipal JwtAuthentication userinfo){
-////        strategyService.getStrategyList(dto.getCategory(),)
-//        return null;
-//    }
+    @GetMapping(value="")
+    public ApiResponse getStrategyList(PaginationRequestDto dto,
+                                       @AuthenticationPrincipal JwtAuthentication userinfo){
+
+        return strategyService.getStrategyList(dto);
+    }
 
     @GetMapping("/detail")
     public ApiResponse getStrategyDetail(@RequestParam Long strategySeq, @RequestParam String symbol,
