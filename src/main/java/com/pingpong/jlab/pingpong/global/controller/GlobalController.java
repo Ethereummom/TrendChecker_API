@@ -6,8 +6,10 @@ import com.pingpong.jlab.pingpong.global.api.ApiResponse;
 import com.pingpong.jlab.pingpong.global.dto.UserInfo;
 import com.pingpong.jlab.pingpong.global.error.exception.ErrorCode;
 import com.pingpong.jlab.pingpong.global.jwt.JwtAuthentication;
+import com.pingpong.jlab.pingpong.global.service.GlobalService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -19,6 +21,9 @@ public class GlobalController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    GlobalService globalService;
 
     @RequestMapping("/login")
     public String userLogin(){
@@ -33,6 +38,11 @@ public class GlobalController {
             return ApiResponse.res(400, ErrorCode.USER_NOT_FOUND.getMessage());
         }
         return null;
+    }
+
+    @GetMapping("/main")
+    public ApiResponse getMainDataList(@AuthenticationPrincipal JwtAuthentication authentication){
+        return globalService.getMainDataList();
     }
 
 }
