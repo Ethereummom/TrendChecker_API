@@ -1,5 +1,6 @@
 package com.pingpong.jlab.pingpong.domain.follow.repository;
 
+import com.pingpong.jlab.pingpong.domain.follow.converter.FollowDtoConverter;
 import com.pingpong.jlab.pingpong.domain.follow.dto.FollowResponseDto;
 import com.pingpong.jlab.pingpong.domain.follow.entity.Follow;
 import com.pingpong.jlab.pingpong.domain.user.entity.User;
@@ -17,12 +18,11 @@ public class FollowRepositoryCustomImpl extends QuerydslRepositorySupport implem
     @Override
     public PaginationResponseDto<FollowResponseDto> getFollowerListByUser(User user , PaginationRequestDto dto){
         JPQLQuery<Follow> query = from(follow)
-                .where(follow.fromUser.eq(user));
+                .where(follow.toUser.eq(user));
         query.orderBy(follow.followSeq.desc());
         List<Follow> followList = query.fetch();
         long count = query.fetchCount();
 
-
-        return null;
+        return new PaginationResponseDto<>(FollowDtoConverter.convert(followList),count,dto);
     }
 }
