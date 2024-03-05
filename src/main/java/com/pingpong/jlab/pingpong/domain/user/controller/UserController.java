@@ -1,17 +1,14 @@
 package com.pingpong.jlab.pingpong.domain.user.controller;
 
+import com.pingpong.jlab.pingpong.domain.follow.dto.FollowRequestDto;
+import com.pingpong.jlab.pingpong.domain.follow.service.FollowService;
+import com.pingpong.jlab.pingpong.global.jwt.JwtAuthentication;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.pingpong.jlab.pingpong.domain.user.dto.UserDto;
 import com.pingpong.jlab.pingpong.domain.user.dto.UserUpdateDto;
@@ -29,6 +26,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FollowService followService;
 
     @GetMapping(value = "")
     public ApiResponse getUserList(PaginationRequestDto paginationRequestDto){
@@ -65,4 +65,16 @@ public class UserController {
         log.info("입력 데이터 정보 ---- : : : " + userinfo);
         return userService.addUser(userinfo);
     }
+
+    @GetMapping("/follow")
+    public ApiResponse getUserFollowerList(PaginationRequestDto dto, @AuthenticationPrincipal JwtAuthentication userInfo){
+        return followService.getUserFollowerList(dto, userInfo.getUserid());
+
+    }
+
+    @PostMapping(value = "/follow")
+    public ApiResponse followUser(@RequestBody FollowRequestDto dto , @AuthenticationPrincipal JwtAuthentication authentication){
+        return userService.followUser(dto,authentication.getUserid());
+    }
+
 }

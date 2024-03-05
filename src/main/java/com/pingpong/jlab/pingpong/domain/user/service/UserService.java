@@ -3,7 +3,12 @@ package com.pingpong.jlab.pingpong.domain.user.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.pingpong.jlab.pingpong.domain.follow.dto.FollowRequestDto;
+import com.pingpong.jlab.pingpong.domain.follow.entity.Follow;
+import com.pingpong.jlab.pingpong.domain.follow.repository.FollowRepository;
+import com.pingpong.jlab.pingpong.domain.follow.service.FollowService;
 import com.pingpong.jlab.pingpong.domain.user.converter.UserResponseDtoConverter;
+import com.pingpong.jlab.pingpong.global.error.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,8 +32,11 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    FollowRepository followRepository;
+    @Autowired
+    FollowService followService;
 
 
     public ApiResponse addUser(UserDto userinfo){
@@ -93,5 +101,21 @@ public class UserService {
             return ApiResponse.res(204, "해당 유저는 관리자가 아닙니다.");
         }
 
+    }
+
+    public ApiResponse followUser(FollowRequestDto dto, String userId){
+        Optional<User> fromUser = userRepository.findByUserid(userId);
+        Optional<User> toUser = userRepository.findByUserid(dto.getTargetUserId());
+        if(fromUser.isEmpty() || toUser.isEmpty()){
+            return ApiResponse.res(400, ErrorCode.USER_NOT_FOUND.getMessage());
+        }
+        if(dto.getFollowOrUnfollow().equals("FOLLOW")){
+            return followService.followUser(fromUser.get(), toUser.get());
+        //** 이미 팔로우중인 유저인지 확인 */
+        }
+        else if(dto.getFollowOrUnfollow().equals("UNFOLLOW")){
+            return followService.unFollowUser(fromUser.get(), toUser.get());
+        }
+        return ApiResponse.res(400,ErrorCode.INVALID_INPUT_VALUE.getMessage());
     }
 }

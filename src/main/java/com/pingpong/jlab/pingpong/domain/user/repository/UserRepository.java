@@ -16,8 +16,6 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
 
-    Optional<User> findByUserseq(Long userseq);
-
     Optional<User> findByUserid(String userid);
 
     @Override
@@ -29,6 +27,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
     List<User> findByRole(String role);
 
     Optional<User> findByProviderAndUserid(Provider provider , String userid);
+
+
 
 
     
