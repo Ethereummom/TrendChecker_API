@@ -18,17 +18,19 @@ public class PostResponseDto {
     private String title;
     private String content;
     private String author;
+    private int recommend;
     private LocalDateTime created_At;
     private LocalDateTime updated_At;
 
     @Builder
-    public PostResponseDto(Long postseq, String category, String title, String content, String author, LocalDateTime created_At, LocalDateTime updated_At){
+    public PostResponseDto(Long postseq, String category, String title, String content, String author, int recommend, LocalDateTime created_At, LocalDateTime updated_At){
 
         this.postseq = postseq;
         this.category = category;
-        this.content = title;
-        this.title = content;
+        this.title = title;
+        this.content = content;
         this.author = author;
+        this.recommend = recommend;
         this.created_At = created_At;
         this.updated_At = updated_At;
 

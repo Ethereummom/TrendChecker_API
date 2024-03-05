@@ -10,4 +10,6 @@ import com.pingpong.jlab.pingpong.global.dto.PaginationResponseDto;
 public interface PostRepositoryCustom {
 
     PaginationResponseDto<PostResponseDto> getPostListWithSearchAndPaging(PaginationRequestDto dto);
+
+    List<PostResponseDto> getPostListByCategoryAndRank(String category);
 }

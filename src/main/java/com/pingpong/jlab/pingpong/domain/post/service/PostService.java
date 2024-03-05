@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.pingpong.jlab.pingpong.domain.post.dto.PostResponseDto;
 import com.pingpong.jlab.pingpong.domain.post.repository.PostRepositoryCustomImpl;
+import com.pingpong.jlab.pingpong.global.error.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,12 @@ public class PostService {
             return ApiResponse.res(200, "게시물 리스트" , postList);
         }
 }
+    public ApiResponse getPostListByCategoryAndRank(String category){
+        if(category == null){
+            return ApiResponse.res(400, ErrorCode.INVALID_INPUT_VALUE.getMessage());
+        }
+        return ApiResponse.res(200,"인기 게시물 리스트",postRepository.getPostListByCategoryAndRank(category));
+    }
 
     public ApiResponse addPost(PostDto dto, String userid){
         

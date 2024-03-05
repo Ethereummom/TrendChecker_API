@@ -39,35 +39,37 @@
 
      }
 
+     @Override
+     public List<PostResponseDto> getPostListByCategoryAndRank(String category){
+         JPQLQuery<Post> query = from(post)
+                 .where(post.category.eq(category))
+                 .orderBy(post.recommend.desc())
+                 .limit(5);
+
+         List<Post> postList = query.fetch();
+         return PostDtoConverter.convert(postList);
+     }
+
      private BooleanExpression searchWithCondition(PaginationRequestDto dto){
          String category = dto.getCategory();
-         log.info("category : : : " + category + "keyword : : : " + dto.getKeyword() + "page : : : " + dto.getPage());
+         log.info("category : : : " + category + " | keyword : : : " + dto.getKeyword() + " | page : : : " + dto.getPage());
          if(Objects.isNull(category)){
-             return null;
+             return post.title.contains(dto.getKeyword())
+                     .or(post.content.contains(dto.getKeyword())
+                             .or(post.user.nickname.contains(dto.getKeyword())));
          }
 
-         switch(category.toUpperCase()){
-
-             case "ALL":
-                 return post.title.contains(dto.getKeyword())
-                         .or(post.content.contains(dto.getKeyword())
-                                 .or(post.user.email.contains(dto.getKeyword())));
-             case "TITLE":
-                 return post.title.contains(dto.getKeyword());
-            
-             case "CONTENT":
-                 return post.content.contains(dto.getKeyword());
-            
-             case "TITLEANDCONTENT":
-                 return post.title.contains(dto.getKeyword())
+         return switch (category.toUpperCase()) {
+             case "ALL" -> post.title.contains(dto.getKeyword())
+                     .or(post.content.contains(dto.getKeyword())
+                             .or(post.user.nickname.contains(dto.getKeyword())));
+             case "TITLE" -> post.title.contains(dto.getKeyword());
+             case "CONTENT" -> post.content.contains(dto.getKeyword());
+             case "TITLEANDCONTENT" -> post.title.contains(dto.getKeyword())
                      .or(post.content.contains(dto.getKeyword()));
-
-             case "AUTHOR":
-                 return post.user.email.contains(dto.getKeyword());
-
-             default:
-                 return null;
-         }
+             case "AUTHOR" -> post.user.nickname.contains(dto.getKeyword());
+             default -> null;
+         };
      }
 
      private BooleanExpression sortWithRank(PaginationRequestDto dto){

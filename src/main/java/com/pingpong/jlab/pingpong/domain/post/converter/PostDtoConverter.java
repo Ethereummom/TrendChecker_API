@@ -31,8 +31,9 @@ public class PostDtoConverter {
                 .postseq(post.getPostseq())
                 .category(post.getCategory())
                 .title(post.getTitle())
-                .author(post.getUser().getNickname())
                 .content(post.getContent())
+                .author(post.getUser().getNickname())
+                .recommend(post.getRecommend())
                 .created_At(post.getCreatedAt())
                 .updated_At(post.getUpdatedAt())
                 .build();
