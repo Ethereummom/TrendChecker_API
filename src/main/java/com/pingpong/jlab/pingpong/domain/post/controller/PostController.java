@@ -39,7 +39,7 @@ public class PostController {
 
     @PostMapping(value = "")
     public ApiResponse addPost(@RequestBody PostDto dto, @AuthenticationPrincipal JwtAuthentication userinfo){
-        
+        log.info("Data Information ::::  " + dto.getCategory() + "||" + dto.getContent() + "||"  + dto.getTitle());
         return postService.addPost(dto, userinfo.getUserid());
     }
 
@@ -53,9 +53,13 @@ public class PostController {
         return postService.updatePost(dto);
     }
 
+    @GetMapping("/rank")
+    public ApiResponse getPostListByCategoryAndRank(PaginationRequestDto dto){
+        return postService.getPostListByCategoryAndRank(dto.getCategory());
+    }
+
     @GetMapping(value ="/{postseq}")
-    public ApiResponse getPostDetail(@PathVariable("postseq") Long postseq){
+    public ApiResponse getPostDetail(@PathVariable("postseq") Long postseq) {
         return postService.getPostDetail(postseq);
     }
-    
 }

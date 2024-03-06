@@ -12,7 +12,6 @@ public class PaginationRequestDto {
     private int offset;
     private String category;
     private String keyword;
-    
 
     //기본값 정의
     private static final int DEFAULT_PAGE = 1;

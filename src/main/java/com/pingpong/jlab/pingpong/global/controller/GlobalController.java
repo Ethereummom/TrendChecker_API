@@ -10,6 +10,7 @@ import com.pingpong.jlab.pingpong.global.service.GlobalService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -18,6 +19,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1")
 public class GlobalController {
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     UserRepository userRepository;
@@ -36,6 +39,9 @@ public class GlobalController {
         Optional<User> user = userRepository.findByUserid(userInfo.getUserId());
         if(user.isEmpty()){
             return ApiResponse.res(400, ErrorCode.USER_NOT_FOUND.getMessage());
+        }
+        if(passwordEncoder.matches(userInfo.getPasswd(), user.get().getPassword())){
+            return null;
         }
         return null;
     }

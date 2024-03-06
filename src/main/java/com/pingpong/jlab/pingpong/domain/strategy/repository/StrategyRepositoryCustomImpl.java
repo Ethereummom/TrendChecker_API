@@ -30,7 +30,18 @@ public class StrategyRepositoryCustomImpl extends QuerydslRepositorySupport impl
                 .where(strategySortByCategory(category))
                 .offset(dto.getOffset())
                 .limit(dto.getLimit());
-                    query.orderBy(strategy.recommendations.desc());
+        switch(category.toUpperCase()){
+            case "DATE":
+                query.orderBy(strategy.createdAt.desc());
+            case "RECOMMEND":
+                query.orderBy(strategy.recommendations.desc());
+            case "SUBSCRIBERS":
+                query.orderBy(strategy.subscriberCount.desc());
+            case "YIELD":
+                query.orderBy(strategy.calculatedYield.desc());
+            default:
+                query.orderBy(strategy.recommendations.desc());
+        }
         List<Strategy> strategyList = query.fetch();
         long count = query.fetchCount();
         PaginationResponseDto<Strategy> strategyListWithPaging = new PaginationResponseDto<>(strategyList, count, dto);
