@@ -42,7 +42,7 @@ public class StrategyDtoConverter {
                 .author(strategy.getUser().getNickname())
                 .startvalue(strategy.getStartvalue())
                 .calculatedYield(strategy.getCalculatedYield())
-                .assetType(strategy.getAsset().getName())
+                .assetType(strategy.getAsset().getSymbol())
                 .createdAt(strategy.getCreatedAt())
                 .endedAt(strategy.getUpdatedAt())
                 .recommendations(strategy.getRecommendations())
