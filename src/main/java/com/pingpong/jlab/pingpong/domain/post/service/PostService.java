@@ -43,8 +43,8 @@ public class PostService {
 
         String category = dto.getCategory();
         String keyword = dto.getKeyword();
-        Long stgySeq = Long.parseLong(dto.getKeyword());
         if(category.equals("stgy")){
+            Long stgySeq = Long.parseLong(dto.getKeyword());
             Optional<Strategy> stgy = strategyRepository.findById(stgySeq);
             if(stgy.isEmpty()){
                 return ApiResponse.res(400,ErrorCode.USER_NOT_FOUND.getMessage());
@@ -52,13 +52,6 @@ public class PostService {
             return ApiResponse.res(200,"해당 전략에 따른 게시물리스트" , postRepository.getPostListByStgySeq(dto,stgy.get()));
         }
 
-//        List<Post> postEntity2 = new ArrayList<>();
-//        List<Post> postEntity = new ArrayList<>();
-//
-//        postEntity2 = postRepository.getPostListWithPaging(dto.getOffset(), dto.getLimit());
-//        postEntity = postRepository.findAll();
-//        long count = postRepository.count();
-//        PaginationResponseDto<PostDto> postList = new PaginationResponseDto(postEntity2, count, dto);
 
         PaginationResponseDto<PostResponseDto> postList = postRepository.getPostListWithSearchAndPaging(dto);
     
