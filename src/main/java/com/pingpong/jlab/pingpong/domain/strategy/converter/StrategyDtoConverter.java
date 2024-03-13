@@ -4,6 +4,7 @@ import com.pingpong.jlab.pingpong.domain.strategy.dto.StrategyResponseDTO;
 import com.pingpong.jlab.pingpong.domain.strategy.entity.Strategy;
 import lombok.extern.log4j.Log4j2;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class StrategyDtoConverter {
     }
 
     private static StrategyResponseDTO strategyDtoBuilder(Strategy strategy){
-
+        DecimalFormat df = new DecimalFormat("#.0");
         log.info("strategyEntity :::: {}" , strategy.getUser().getNickname());
 
         return StrategyResponseDTO.builder()
@@ -41,8 +42,9 @@ public class StrategyDtoConverter {
                 .content(strategy.getContent())
                 .author(strategy.getUser().getNickname())
                 .startvalue(strategy.getStartvalue())
-                .calculatedYield(strategy.getCalculatedYield())
+                .calculatedYield(df.format(strategy.getCalculatedYield()))
                 .assetType(strategy.getAsset().getSymbol())
+                .thumbnailUrl(strategy.getAsset().getThumbnailUrl())
                 .createdAt(strategy.getCreatedAt())
                 .endedAt(strategy.getUpdatedAt())
                 .recommendations(strategy.getRecommendations())

@@ -19,8 +19,9 @@ public class StrategyResponseDTO {
     private String content;
     private String author;
     private double startvalue;
-    private double calculatedYield;
+    private String calculatedYield;
     private String assetType;
+    private String thumbnailUrl;
     private Asset asset;
     private User user;
     private LocalDateTime createdAt;
@@ -29,8 +30,8 @@ public class StrategyResponseDTO {
     private int subscriberCount;
 
     @Builder
-    public StrategyResponseDTO(Long strategySeq, String title, String content, String author, double startvalue, double calculatedYield,
-                               String assetType ,LocalDateTime createdAt,LocalDateTime endedAt,
+    public StrategyResponseDTO(Long strategySeq, String title, String content, String author, double startvalue, String calculatedYield,
+                               String assetType , String thumbnailUrl, LocalDateTime createdAt,LocalDateTime endedAt,
                                int recommendations ,int subscriberCount){
 
         this.strategySeq = strategySeq;
@@ -40,6 +41,7 @@ public class StrategyResponseDTO {
         this.startvalue = startvalue;
         this.calculatedYield = calculatedYield;
         this.assetType = assetType;
+        this.thumbnailUrl = thumbnailUrl;
         this.createdAt = createdAt;
         this.endedAt = endedAt;
         this.recommendations = recommendations;

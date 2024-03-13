@@ -70,7 +70,7 @@ public class StrategyService {
 
         }
         List<Strategy> strategyRank = strategyRepository.getStrategyListByRecommendationsAll();
-        return ApiResponse.res(200, "전체 랭킹", strategyRank);
+        return ApiResponse.res(200, "전체 랭킹", StrategyDtoConverter.convert(strategyRank));
     }
     @Transactional
     public ApiResponse getStrategyList(PaginationRequestDto dto){

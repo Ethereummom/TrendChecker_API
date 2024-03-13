@@ -8,6 +8,8 @@ import java.util.Set;
 
 import com.pingpong.jlab.pingpong.domain.post.dto.PostResponseDto;
 import com.pingpong.jlab.pingpong.domain.post.repository.PostRepositoryCustomImpl;
+import com.pingpong.jlab.pingpong.domain.strategy.entity.Strategy;
+import com.pingpong.jlab.pingpong.domain.strategy.repository.StrategyRepository;
 import com.pingpong.jlab.pingpong.global.error.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,10 +36,21 @@ public class PostService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    StrategyRepository strategyRepository;
+
     public ApiResponse getPostList(PaginationRequestDto dto){
 
         String category = dto.getCategory();
         String keyword = dto.getKeyword();
+        Long stgySeq = Long.parseLong(dto.getKeyword());
+        if(category.equals("stgy")){
+            Optional<Strategy> stgy = strategyRepository.findById(stgySeq);
+            if(stgy.isEmpty()){
+                return ApiResponse.res(400,ErrorCode.USER_NOT_FOUND.getMessage());
+            }
+            return ApiResponse.res(200,"해당 전략에 따른 게시물리스트" , postRepository.getPostListByStgySeq(dto,stgy.get()));
+        }
 
 //        List<Post> postEntity2 = new ArrayList<>();
 //        List<Post> postEntity = new ArrayList<>();

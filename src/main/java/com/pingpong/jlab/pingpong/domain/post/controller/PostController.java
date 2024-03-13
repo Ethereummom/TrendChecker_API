@@ -33,7 +33,7 @@ public class PostController {
     
     @GetMapping(value = "")
     public ApiResponse getPostList(PaginationRequestDto dto,@AuthenticationPrincipal JwtAuthentication userinfo){
-        
+        log.info("Param Information ::: postSeq ||" + dto.getKeyword() + "category || " + dto.getCategory());
         return postService.getPostList(dto);
     }
 

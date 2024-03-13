@@ -5,6 +5,7 @@
 
  import com.pingpong.jlab.pingpong.domain.post.converter.PostDtoConverter;
  import com.pingpong.jlab.pingpong.domain.post.dto.PostResponseDto;
+ import com.pingpong.jlab.pingpong.domain.strategy.entity.Strategy;
  import com.pingpong.jlab.pingpong.global.dto.PaginationResponseDto;
  import lombok.extern.slf4j.Slf4j;
  import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -48,6 +49,18 @@
 
          List<Post> postList = query.fetch();
          return PostDtoConverter.convert(postList);
+     }
+
+     @Override
+     public PaginationResponseDto<PostResponseDto> getPostListByStgySeq(PaginationRequestDto dto, Strategy strategy){
+         JPQLQuery<Post> query = from(post)
+                 .where(post.strategy.eq(strategy))
+                 .orderBy(post.createdAt.desc())
+                 .limit(10);
+
+         List<Post> postList = query.fetch();
+         long count = query.fetchCount();
+         return new PaginationResponseDto<>(PostDtoConverter.convert(postList), count, dto);
      }
 
      private BooleanExpression searchWithCondition(PaginationRequestDto dto){

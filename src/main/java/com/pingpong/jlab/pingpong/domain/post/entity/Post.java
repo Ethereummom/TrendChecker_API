@@ -12,6 +12,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import com.pingpong.jlab.pingpong.domain.strategy.entity.Strategy;
 import com.pingpong.jlab.pingpong.domain.user.entity.User;
 
 import lombok.Getter;
@@ -47,6 +48,9 @@ public class Post {
 
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    private Strategy strategy;
 
     @PrePersist
     public void onCreate(){
