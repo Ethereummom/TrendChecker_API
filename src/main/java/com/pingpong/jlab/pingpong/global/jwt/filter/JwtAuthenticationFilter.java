@@ -1,8 +1,10 @@
 package com.pingpong.jlab.pingpong.global.jwt.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.FilterChain;
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,9 +42,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         }
     
     @Override
-    public boolean shouldNotFilter(HttpServletRequest request){
-        return request.getRequestURI().equals("api/v1/token");
+    public boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String[] excludePath = {
+                "/api-docs/json",
+                "/api-docs",
+                "/api/u/v1/social-login",
+                "/swagger-ui/",
+                "/swagger-config",
+                "/swagger.yaml",
+                "/requestBodies",
+                "/swagger-",
+                "/error",
+                "/api/v1/app/kakao/authorize",
+                "/api/v1/token"
+        };
+
+        String path = request.getRequestURI();
+        boolean shouldNotFilter = Arrays.stream(excludePath).anyMatch(path::startsWith);
+
+        return shouldNotFilter;
     }
+
 
 
 }

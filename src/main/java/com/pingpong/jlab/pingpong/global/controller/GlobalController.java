@@ -6,6 +6,7 @@ import com.pingpong.jlab.pingpong.global.api.ApiResponse;
 import com.pingpong.jlab.pingpong.global.dto.UserInfo;
 import com.pingpong.jlab.pingpong.global.error.exception.ErrorCode;
 import com.pingpong.jlab.pingpong.global.jwt.JwtAuthentication;
+import com.pingpong.jlab.pingpong.global.security.oauth2.kakao.KakaoAuthService;
 import com.pingpong.jlab.pingpong.global.service.GlobalService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class GlobalController {
     @Autowired
     GlobalService globalService;
 
+    @Autowired
+    KakaoAuthService kakaoAuthService;
+
     @RequestMapping("/login")
     public String userLogin(){
         return "hello";
@@ -44,6 +48,13 @@ public class GlobalController {
             return null;
         }
         return null;
+    }
+
+    @PostMapping("/app/kakao/authorize")
+    private ApiResponse getAppKakaoAuthentication(@RequestBody UserInfo userInfo){
+
+        return kakaoAuthService.appKakaoLogin(userInfo);
+
     }
 
     @GetMapping("/main")

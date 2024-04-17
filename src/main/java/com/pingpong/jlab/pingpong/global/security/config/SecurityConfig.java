@@ -22,6 +22,10 @@ import com.pingpong.jlab.pingpong.global.security.oauth2.CustomOAuth2UserService
 import com.pingpong.jlab.pingpong.global.security.oauth2.handler.OAuth2LoginFailureHandler;
 import com.pingpong.jlab.pingpong.global.security.oauth2.handler.OAuth2LoginSuccessHandler;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+
 
 @Configuration
 @EnableWebSecurity
@@ -109,4 +113,5 @@ public class SecurityConfig {
             
             // .authorizationRequestRepository(cookieOAuth)
     }
+
 }
