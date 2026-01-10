@@ -80,6 +80,9 @@ dependencies {
 	//Spring Doc
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
 
+	//Google Gemini
+	implementation("com.google.genai:google-genai:1.3.0")
+
 }
 
 tasks.named('bootBuildImage') {

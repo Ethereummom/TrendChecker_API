@@ -15,7 +15,8 @@ public class ApiResponse<T> {
     private String message;
     private T data;
 
-    /* 
+    /**
+     *
      * 데이터가 없고 
      * 결과값만 존재할 때
     */

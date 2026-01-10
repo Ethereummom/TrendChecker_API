@@ -15,7 +15,4 @@ public class WebConfig implements WebMvcConfigurer{
                 .allowedMethods("*")
                 .allowCredentials(true);
     }
-
-
-    
 }

@@ -32,11 +32,11 @@ public class KakaoAuthService {
         log.info("User Info from Flutter :::: " + userInfo.getUserId());
         Optional<User> kakaoUserInfo = userRepository.findByUserid(userInfo.getUserId());
         if(kakaoUserInfo.isPresent()){
-            String AccessToken = jwtTokenService.reIssueAccessToken(kakaoUserInfo.get().getUserid(),
+            String accessToken = jwtTokenService.reIssueAccessToken(kakaoUserInfo.get().getUserid(),
                     kakaoUserInfo.get().getRole(),kakaoUserInfo.get().getProfileimage());
-            String RefreshToken = jwtTokenService.reIssueRefreshToken(kakaoUserInfo.get().getUserid());
+            String refreshToken = jwtTokenService.reIssueRefreshToken(kakaoUserInfo.get().getUserid());
 
-            return ApiResponse.res(200,"인증 토큰 발급 완료" , new TokenReIssueResponseDto(AccessToken, RefreshToken));
+            return ApiResponse.res(200,"인증 토큰 발급 완료" , new TokenReIssueResponseDto(accessToken, refreshToken));
         }
         else{
             return ApiResponse.res(204,"회원가입이 필요합니다.");

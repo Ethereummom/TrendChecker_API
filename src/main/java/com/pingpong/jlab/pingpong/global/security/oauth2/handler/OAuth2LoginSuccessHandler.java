@@ -26,9 +26,9 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 
-    private final JwtTokenProvider tokenProvider;
+  private final JwtTokenProvider tokenProvider;
 
-    @Value("${jwt.expire-seconds.access-token}")
+  @Value("${jwt.expire-seconds.access-token}")
 	long accessTokenExpireSeconds;
 	
 	@Value("${jwt.expire-seconds.refresh-token}")
