@@ -4,7 +4,7 @@ import com.pingpong.jlab.pingpong.domain.strategy.entity.Strategy;
 import com.pingpong.jlab.pingpong.domain.user.entity.User;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Setter

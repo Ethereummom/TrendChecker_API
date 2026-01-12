@@ -9,10 +9,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
 import com.pingpong.jlab.pingpong.global.jwt.filter.ExceptionHandlerFilter;
 import com.pingpong.jlab.pingpong.global.jwt.filter.JwtAuthenticationEntryPoint;
 import com.pingpong.jlab.pingpong.global.jwt.filter.JwtAuthenticationFilter;
@@ -22,32 +18,17 @@ import com.pingpong.jlab.pingpong.global.security.oauth2.CustomOAuth2UserService
 import com.pingpong.jlab.pingpong.global.security.oauth2.handler.OAuth2LoginFailureHandler;
 import com.pingpong.jlab.pingpong.global.security.oauth2.handler.OAuth2LoginSuccessHandler;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // @Autowired
-    // private AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    // @Autowired
-    // private AuthenticationFailureHandler authenticationFailureHandler;
-
     @Autowired
     private CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
-
-    // @Autowired
-    // private AuthenticationSuccessHandler authenticationSuccessHandler;
-    
-    // @Autowired
-    // private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
     private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
@@ -68,50 +49,51 @@ public class SecurityConfig {
     private CookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository;
 
     @Bean
-    BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-		return http
-            .csrf().disable()
-            .authorizeHttpRequests()
-            .antMatchers("/*").permitAll()
+        http
+            // 1. CSRF 및 기초 설정 (Lambda 방식)
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .formLogin(form -> form.disable())
+            .httpBasic(basic -> basic.disable())
 
-            
-            // .and()
-            // .formLogin()
-            //     .usernameParameter("username")
-            //     .passwordParameter("password")
-            //     .successHandler(authenticationSuccessHandler)
-            //     .failureHandler(authenticationFailureHandler)
+            // 2. 권한 설정 (antMatchers -> requestMatchers)
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/", "/login/**", "/oauth2/**", "/favicon.ico").permitAll()
+                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                .anyRequest().permitAll()
+            )
 
-                
-            .and()
-            .oauth2Login()
-            .authorizationEndpoint().baseUri("/oauth2/authorization")
-            .authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository)
-            .and()
-            .redirectionEndpoint().baseUri("/login/oauth2/code/**")
-            .and()
-            .userInfoEndpoint().userService(customOAuth2UserService)
-            .and()
-            .successHandler(oAuth2LoginSuccessHandler)
-            .failureHandler(oAuth2LoginFailureHandler)
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .exceptionHandling()
-            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-            .and()
-            .addFilterBefore(jwtAuthenticationFilter,OAuth2AuthorizationRequestRedirectFilter.class)
-            .addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class)
-            .build();
-            
-            // .authorizationRequestRepository(cookieOAuth)
+            // 3. OAuth2 설정
+            .oauth2Login(oauth2 -> oauth2
+                .authorizationEndpoint(auth -> auth
+                    .baseUri("/oauth2/authorization")
+                    .authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository)
+                )
+                .redirectionEndpoint(redirection -> redirection
+                    .baseUri("/login/oauth2/code/**")
+                )
+                .userInfoEndpoint(userInfo -> userInfo
+                    .userService(customOAuth2UserService)
+                )
+                .successHandler(oAuth2LoginSuccessHandler)
+                .failureHandler(oAuth2LoginFailureHandler)
+            )
+
+            // 4. 예외 처리
+            .exceptionHandling(exception -> exception
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+            )
+
+            // 5. 필터 순서 설정
+            .addFilterBefore(jwtAuthenticationFilter, OAuth2AuthorizationRequestRedirectFilter.class)
+            .addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class);
+
+        return http.build();
     }
-
 }

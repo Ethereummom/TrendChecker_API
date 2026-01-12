@@ -3,12 +3,12 @@ package com.pingpong.jlab.pingpong.global.jwt.filter;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.servlet.FilterChain;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,6 +31,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, 
         FilterChain filterChain) throws ServletException, IOException{
+
+          /* 임시 소스 ... 테스트위한 필터 disable 처리 */
+            String path = request.getRequestURI();
+
+            if (path.startsWith("/api/v1/test/")) {
+              filterChain.doFilter(request, response);
+              return;
+            }
 
             String accessToken = tokenService.getAccessToken(request).orElse(null);
 

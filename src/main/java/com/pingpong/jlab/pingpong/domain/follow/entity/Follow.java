@@ -3,7 +3,7 @@ package com.pingpong.jlab.pingpong.domain.follow.entity;
 import com.pingpong.jlab.pingpong.domain.user.entity.User;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @Setter

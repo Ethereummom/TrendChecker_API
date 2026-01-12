@@ -1,6 +1,6 @@
 package com.pingpong.jlab.pingpong.global.security.oauth2;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.Map;
 import java.util.Collections;

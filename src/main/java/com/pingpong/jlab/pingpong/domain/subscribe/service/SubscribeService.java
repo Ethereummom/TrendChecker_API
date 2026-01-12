@@ -1,6 +1,4 @@
 package com.pingpong.jlab.pingpong.domain.subscribe.service;
-
-import com.google.protobuf.Api;
 import com.pingpong.jlab.pingpong.domain.strategy.entity.Strategy;
 import com.pingpong.jlab.pingpong.domain.strategy.repository.StrategyRepository;
 import com.pingpong.jlab.pingpong.domain.subscribe.dto.SubscribeResponseDto;
