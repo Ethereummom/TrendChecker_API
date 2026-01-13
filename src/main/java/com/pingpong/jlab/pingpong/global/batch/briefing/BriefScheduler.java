@@ -1,5 +1,6 @@
 package com.pingpong.jlab.pingpong.global.batch.briefing;
 
+import com.pingpong.jlab.pingpong.domain.asset.estate.service.RealEstateService;
 import com.pingpong.jlab.pingpong.domain.llm.service.GeminiService;
 import com.pingpong.jlab.pingpong.domain.notion.service.NotionService;
 import com.pingpong.jlab.pingpong.domain.telegram.service.TelegramService;
@@ -16,6 +17,7 @@ public class BriefScheduler {
     private final NotionService notionService;
     private final GeminiService geminiService;
     private final TelegramService telegramService;
+    private final RealEstateService realEstateService;
 
     /**
      * 매일 아침 08:30:00 자동 실행
@@ -29,13 +31,25 @@ public class BriefScheduler {
         try {
             // 1. 노션 데이터 가져오기 (이미 검증된 로직!)
             String rawJson = notionService.fetchTodayTasks();
-            String summary = notionService.getExtractedSummary(rawJson);
+            String notionSummary = notionService.getExtractedSummary(rawJson);
+            String notionBriefing = geminiService.getDailyBriefing(notionSummary);
+
+            String rawEstateData = realEstateService.fetchRecentTransactions();
+            String estateAnalysis = geminiService.analyzeRealEstate(rawEstateData);
 
             // 2. Gemini 요약
-            String briefing = geminiService.getDailyBriefing(summary);
+
+            // 3. Assemble
+            String finalBriefing = String.format("""
+            %s
+
+            --------------
+            🏠 **부동산 일일 브리핑**
+            %s
+            """, notionSummary, estateAnalysis);
 
             // 3. 텔레그램 전송
-            telegramService.sendMessage(briefing);
+            telegramService.sendMessage(finalBriefing);
 
             log.info(">>> [스케줄러] ✅ 브리핑 전송 완료!");
 
